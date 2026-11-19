@@ -482,6 +482,7 @@ function normalize(d){
     steps: typeof r.steps === "string" ? r.steps : "",
     photo: typeof r.photo === "string" && r.photo.startsWith("data:image/") ? r.photo : null,
     needsSide: !!r.needsSide,
+    canPrep: !!r.canPrep,
     updatedAt: Number(r.updatedAt) || 0
   }));
   if (Array.isArray(d.plan)) s.plan = d.plan.filter(p => p && (p.recipeId != null || p.kind === "out")).map(p => {
@@ -682,11 +683,12 @@ function onWeekNav(btn){
 function renderRecipes(){
   const counts = {all: S.recipes.length};
   TYPES.forEach(t => counts[t.k] = S.recipes.filter(r => r.type === t.k).length);
-  $("filters").innerHTML = [{k:"all", l:"Все"}].concat(TYPES).map(t =>
+  counts.prep = S.recipes.filter(r => r.canPrep).length;
+  $("filters").innerHTML = [{k:"all", l:"Все"}, {k:"prep", l:"Для заготовок"}].concat(TYPES).map(t =>
     '<button class="chip" data-f="' + t.k + '" aria-pressed="' + (UI.filter === t.k) + '">' + t.l + ' · ' + counts[t.k] + '</button>').join("");
 
   const q = norm(UI.q);
-  let list = S.recipes.filter(r => UI.filter === "all" || r.type === UI.filter);
+  let list = S.recipes.filter(r => UI.filter === "all" || (UI.filter === "prep" ? r.canPrep : r.type === UI.filter));
   if (q) list = list.filter(r => norm(r.name).includes(q) || r.ingredients.some(i => norm(i.name).includes(q)));
   list.sort((a,b) => a.name.localeCompare(b.name, "ru"));
 
@@ -698,7 +700,7 @@ function renderRecipes(){
     const n = r.ingredients.length;
     const open = !!UI.open[r.id];
     const sc = UI.scale[r.id] || r.servings;
-    const meta = r.servings + ' ' + pl(r.servings,"порция","порции","порций") + (r.time ? ' · ' + fmtTime(r.time) : '') + ' · ' + n + ' ' + pl(n,"ингредиент","ингредиента","ингредиентов") + (r.type === "hot" && r.needsSide ? ' · с гарниром' : '');
+    const meta = r.servings + ' ' + pl(r.servings,"порция","порции","порций") + (r.time ? ' · ' + fmtTime(r.time) : '') + ' · ' + n + ' ' + pl(n,"ингредиент","ингредиента","ингредиентов") + (r.type === "hot" && r.needsSide ? ' · с гарниром' : '') + (r.canPrep ? ' · <span class="badge">для заготовки</span>' : '');
     let html = '<article class="rcard" data-id="' + r.id + '">' +
       '<button class="rhead" data-act="toggle" aria-expanded="' + open + '">' +
         (r.photo ? '<img class="thumb" src="' + esc(r.photo) + '" alt="">' : '') +
@@ -763,7 +765,7 @@ function deleteRecipe(id){
 
 function openRecipeEditor(id, presetType, onSaved){
   const src = recipeById(id);
-  const r = src ? clone(src) : { id:null, name:"", type: presetType || (UI.filter !== "all" ? UI.filter : "hot"), servings:2, ingredients:[], steps:"", photo:null, needsSide:false, time:null };
+  const r = src ? clone(src) : { id:null, name:"", type: presetType || (TYPE_L[UI.filter] ? UI.filter : "hot"), servings:2, ingredients:[], steps:"", photo:null, needsSide:false, time:null, canPrep: UI.filter === "prep" && UI.view === "recipes" };
   if (!r.ingredients.length) r.ingredients.push({name:"", qty:null, unit:"г"});
 
   const body =
@@ -773,6 +775,7 @@ function openRecipeEditor(id, presetType, onSaved){
       TYPES.map(t => '<button type="button" class="t-' + t.k + '" data-t="' + t.k + '" aria-pressed="' + (r.type === t.k) + '">' + t.l + '</button>').join("") +
     '</div>' +
     '<label class="check" id="e-side-wrap"' + (r.type === "hot" ? '' : ' hidden') + '><input type="checkbox" id="e-side"' + (r.needsSide ? ' checked' : '') + '> Подаётся с гарниром</label>' +
+    '<label class="check"><input type="checkbox" id="e-prep"' + (r.canPrep ? ' checked' : '') + '> Подходит для заготовки впрок</label>' +
     '</div>' +
     '<div class="field"><span>Сколько порций получается</span><div class="num">' +
       '<button type="button" data-sv="-1" aria-label="Меньше">−</button><input id="e-serv" inputmode="numeric" value="' + r.servings + '" aria-label="Порций"><button type="button" data-sv="1" aria-label="Больше">+</button>' +
@@ -862,6 +865,7 @@ function openRecipeEditor(id, presetType, onSaved){
       id: r.id || uid(), name, type: r.type, servings, ingredients: ings,
       steps: el.querySelector("#e-steps").value, photo: r.photo || null,
       needsSide: r.type === "hot" && el.querySelector("#e-side").checked,
+      canPrep: el.querySelector("#e-prep").checked,
       time: Math.max(0, parseInt(el.querySelector("#e-time").value, 10) || 0) || null,
       updatedAt: Date.now()
     };
@@ -1575,9 +1579,11 @@ function openFridgeItem(id, kind){
       '</div><p class="muted" style="font-size:.84rem;margin:6px 0 0">Оставьте количество пустым, если важно только, что продукт есть. Тогда он не попадёт в список покупок.</p></div>';
   } else {
     const recs = S.recipes.slice().sort((a,b) => a.name.localeCompare(b.name, "ru"));
+    const opt = r => '<option value="' + r.id + '"' + (r.id === it.recipeId ? ' selected' : '') + '>' + esc(r.name) + ' (' + TYPE_L[r.type].toLowerCase() + ')</option>';
+    const good = recs.filter(r => r.canPrep), rest = recs.filter(r => !r.canPrep);
     body +=
       '<label class="field"><span>Блюдо из справочника</span><select class="inp" id="f-rec"><option value="">Другое, не из справочника</option>' +
-        recs.map(r => '<option value="' + r.id + '"' + (r.id === it.recipeId ? ' selected' : '') + '>' + esc(r.name) + ' (' + TYPE_L[r.type].toLowerCase() + ')</option>').join("") +
+        (good.length ? '<optgroup label="Для заготовок">' + good.map(opt).join("") + '</optgroup><optgroup label="Остальные рецепты">' + rest.map(opt).join("") + '</optgroup>' : recs.map(opt).join("")) +
       '</select></label>' +
       '<label class="field" id="f-name-wrap"' + (it.recipeId ? ' hidden' : '') + '><span>Название</span><input class="inp" id="f-name" value="' + esc(it.recipeId ? "" : it.name) + '" placeholder="Например, бульон" autocomplete="off"></label>' +
       '<div class="field"><span>Сколько порций</span><div class="num">' +
@@ -1751,7 +1757,11 @@ function openPrepPicker(){
   const listHtml = q => {
     const f = all.filter(r => !q || norm(r.name).includes(norm(q)));
     if (!f.length) return '<p class="muted" style="margin:4px 0">Ничего не нашлось.</p>';
-    return '<div class="pick">' + f.map(r => pickRow(r, '<br><span class="muted" style="font-size:.8rem">' + TYPE_L[r.type] + (S.prep.items.some(x => x.recipeId === r.id) ? ' · уже в заготовках' : '') + '</span>')).join("") + '</div>';
+    const row = r => pickRow(r, '<br><span class="muted" style="font-size:.8rem">' + TYPE_L[r.type] + (S.prep.items.some(x => x.recipeId === r.id) ? ' · уже в заготовках' : '') + '</span>');
+    const good = f.filter(r => r.canPrep), rest = f.filter(r => !r.canPrep);
+    if (!good.length) return '<p class="muted" style="margin:0 0 8px;font-size:.86rem">Отметьте в справочнике рецепты, которые подходят для заготовок, и они будут показываться здесь первыми.</p><div class="pick">' + rest.map(row).join("") + '</div>';
+    return '<h3 class="sh2" style="margin-top:0">Подходят для заготовки</h3><div class="pick">' + good.map(row).join("") + '</div>' +
+      (rest.length ? '<h3 class="sh2">Остальные рецепты</h3><div class="pick">' + rest.map(row).join("") + '</div>' : '');
   };
   const body = all.length
     ? '<input class="search" type="search" id="pp-q" placeholder="Найти рецепт" autocomplete="off" style="margin-bottom:10px"><div id="pp-list">' + listHtml("") + '</div>'
