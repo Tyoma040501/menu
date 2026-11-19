@@ -17,7 +17,7 @@
 :root{
   --bg:#F2F4F1; --surface:#FFFFFF; --soft:#E8ECE7; --ink:#1E2621; --muted:#626C66; --line:#D9DFDA;
   --accent:#8C2D4B; --accent-ink:#FFFFFF;
-  --t-breakfast:#B07F1F; --t-hot:#8C2D4B; --t-salad:#4A7636; --t-dessert:#6A5193; --t-side:#2F6E7A;
+  --t-breakfast:#B07F1F; --t-hot:#8C2D4B; --t-salad:#4A7636; --t-dessert:#6A5193; --t-side:#2F6E7A; --t-sauce:#A3532A;
   --danger:#B3261E;
   --shadow:0 1px 2px rgba(20,30,25,.06), 0 4px 16px rgba(20,30,25,.06);
   --body:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -30,14 +30,14 @@
   :root:not([data-theme="light"]){
     --bg:#141816; --surface:#1D2320; --soft:#262D29; --ink:#E8EDE9; --muted:#9CA6A0; --line:#2F3733;
     --accent:#E58AA6; --accent-ink:#22101A;
-    --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE; --t-side:#7CC3CF;
+    --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE; --t-side:#7CC3CF; --t-sauce:#E8A07A;
     --danger:#F2867E; --shadow:none; color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#141816; --surface:#1D2320; --soft:#262D29; --ink:#E8EDE9; --muted:#9CA6A0; --line:#2F3733;
   --accent:#E58AA6; --accent-ink:#22101A;
-  --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE; --t-side:#7CC3CF;
+  --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE; --t-side:#7CC3CF; --t-sauce:#E8A07A;
   --danger:#F2867E; --shadow:none; color-scheme: dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -239,10 +239,52 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
 .rv.is-gone .nm,.rv.is-gone .inp{opacity:.4;text-decoration:line-through}
 .check{display:flex;align-items:center;gap:10px;font-size:.95rem;margin-top:8px}
 .check input{width:22px;height:22px;accent-color:var(--accent);margin:0}
+
+/* v3 */
+.hacts{display:flex;gap:6px;align-items:center}
+.hbtn.icon{width:36px;height:36px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.t-sauce{--tc:var(--t-sauce)}
+.day{position:relative}
+.ev{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.day[aria-pressed="true"] .ev{background:var(--bg)}
+.daytools{display:flex;gap:8px;margin:-2px 0 12px;flex-wrap:wrap}
+.daytools .mini{background:var(--surface);border:1px solid var(--line)}
+.entry.out .en{color:var(--muted)}
+.extras{grid-column:1 / -1;background:var(--soft);border-radius:10px;padding:4px 6px 8px 10px}
+.xrow{display:flex;align-items:center;gap:8px;font-size:.9rem;border-bottom:1px dashed var(--line)}
+.xrow span:first-child{flex:1}
+.xrow .q{color:var(--muted);white-space:nowrap}
+.xadd{display:flex;gap:6px;padding-top:8px}
+.outs{display:flex;flex-wrap:wrap;gap:6px}
+.party{width:100%;text-align:left;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--surface));border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;flex-direction:column;gap:2px}
+.party .pt{font-weight:700}
+.party .pm{font-size:.86rem;color:var(--muted)}
+.party .pgo{font-size:.86rem;color:var(--accent);font-weight:500;margin-top:4px}
+.prow2{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
+.prow2 .field{margin-bottom:12px}
+.pcourse{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.pcourse h3{margin:0 0 6px;font-size:.92rem;display:flex;align-items:center;gap:8px}
+.pcourse h3::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--tc)}
+.pdish{display:grid;grid-template-columns:1fr auto 36px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
+.pdish .pn{font-weight:500;line-height:1.25}
+.pdish .pn small{display:block;color:var(--muted);font-weight:400}
+.pdish output{min-width:58px}
+.psum p{margin:0 0 6px;font-size:.92rem}
+.scalebar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 4px}
+.scalebar h4{margin:0!important}
+.scalebar output{min-width:84px}
+.ck{display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid var(--line)}
+.ck:first-child{border-top:0}
+.ckt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ckt .muted{font-size:.82rem}
+.ckm{font-size:.82rem;color:var(--danger)}
+.ck .mini{border:1px solid var(--line);flex:none}
+.banner-actions{display:flex;gap:8px;flex-wrap:wrap}
+.banner-actions .btn{flex:1}
 </style>
 </head>
 <body>
-<header class="top"><h1 id="title">Неделя</h1><button class="hbtn" id="exchange">Обмен</button></header>
+<header class="top"><h1 id="title">Неделя</h1><div class="hacts"><button class="hbtn" id="exchange">Обмен</button><button class="hbtn icon" id="settings" aria-label="Настройки"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div></header>
 
 <main>
   <section id="v-recipes" class="view">
@@ -288,6 +330,7 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
 <datalist id="ing-names"></datalist>
 
 <script>
+
 (function(){
 "use strict";
 
@@ -296,18 +339,35 @@ const TYPES = [
   {k:"breakfast", l:"Завтрак"},
   {k:"hot",       l:"Горячее"},
   {k:"side",      l:"Гарнир"},
+  {k:"sauce",     l:"Соус"},
   {k:"salad",     l:"Салат"},
   {k:"dessert",   l:"Десерт"}
 ];
 const TYPE_L = Object.fromEntries(TYPES.map(t => [t.k, t.l]));
 const SLOTS = ["breakfast", "hot", "salad", "dessert"];
+const OUT_KINDS = [
+  {k:"delivery", l:"Доставка"},
+  {k:"cafe",     l:"Кафе или ресторан"},
+  {k:"guest",    l:"В гостях"},
+  {k:"work",     l:"На работе"}
+];
+const OUT_L = Object.fromEntries(OUT_KINDS.map(o => [o.k, o.l]));
+const COURSES = [
+  {k:"salad",   l:"Закуски и салаты"},
+  {k:"hot",     l:"Горячее"},
+  {k:"side",    l:"Гарниры"},
+  {k:"sauce",   l:"Соусы"},
+  {k:"dessert", l:"Десерты"}
+];
 const DAYS = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"];
 const DAYS_SH = ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
 const DAYS_ACC = ["понедельник","вторник","среду","четверг","пятницу","субботу","воскресенье"];
 const DAYS_IN = ["в понедельник","во вторник","в среду","в четверг","в пятницу","в субботу","в воскресенье"];
-const UNIT_FORMS = { "стакан":["стакан","стакана","стаканов"], "пучок":["пучок","пучка","пучков"], "зубчик":["зубчик","зубчика","зубчиков"], "щепотка":["щепотка","щепотки","щепоток"] };
+const DAYS_EVERY = ["каждый понедельник","каждый вторник","каждую среду","каждый четверг","каждую пятницу","каждую субботу","каждое воскресенье"];
+const ICS_DAYS = ["MO","TU","WE","TH","FR","SA","SU"];
 const MONTHS = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 const UNITS = ["г","кг","мл","л","шт","ст. л.","ч. л.","стакан","пучок","зубчик","щепотка","по вкусу"];
+const UNIT_FORMS = { "стакан":["стакан","стакана","стаканов"], "пучок":["пучок","пучка","пучков"], "зубчик":["зубчик","зубчика","зубчиков"], "щепотка":["щепотка","щепотки","щепоток"] };
 const FRIDGE_UNITS = UNITS.filter(u => u !== "по вкусу");
 const LS_KEY = "menu-planner-v1";
 const VIEWS = ["recipes","week","shop","fridge"];
@@ -385,7 +445,22 @@ const Store = {
 };
 
 /* ---------- state ---------- */
-function emptyState(){ return { recipes:[], plan:[], bought:{}, deleted:[], fridge:[], settings:{ people:1 }, fridgeReviewedAt:0, updatedAt:0 }; }
+function fmtTime(min){
+  if (!min) return "";
+  const h = Math.floor(min / 60), m = min % 60;
+  return h ? h + " ч" + (m ? " " + m + " мин" : "") : m + " мин";
+}
+function emptyState(){
+  return { recipes:[], plan:[], events:[], bought:{}, deleted:[], fridge:[],
+    settings:{ people:1, weekdayMax:0, remDay:6, remTime:"12:00", remDismissed:null },
+    fridgeReviewedAt:0, updatedAt:0 };
+}
+function normExtra(x){
+  if (!x) return null;
+  if (x.kind === "recipe" && x.recipeId) return { id:String(x.id || uid()), kind:"recipe", recipeId:String(x.recipeId) };
+  if (x.kind === "ing" && x.name) return { id:String(x.id || uid()), kind:"ing", name:String(x.name), qty:parseQty(x.qty), unit: UNITS.includes(x.unit) ? x.unit : "г" };
+  return null;
+}
 function normalize(d){
   const s = emptyState();
   if (!d || typeof d !== "object") return s;
@@ -393,24 +468,35 @@ function normalize(d){
   if (Array.isArray(d.recipes)) s.recipes = d.recipes.filter(r => r && r.id && r.name).map(r => ({
     id:String(r.id), name:String(r.name), type: TYPE_L[r.type] ? r.type : "hot",
     servings: Math.max(1, parseInt(r.servings, 10) || 1),
+    time: Math.max(0, parseInt(r.time, 10) || 0) || null,
     ingredients: Array.isArray(r.ingredients) ? r.ingredients.filter(i => i && i.name).map(i => ({ name:String(i.name), qty:parseQty(i.qty), unit: UNITS.includes(i.unit) ? i.unit : "г" })) : [],
     steps: typeof r.steps === "string" ? r.steps : "",
     photo: typeof r.photo === "string" && r.photo.startsWith("data:image/") ? r.photo : null,
     needsSide: !!r.needsSide,
     updatedAt: Number(r.updatedAt) || 0
   }));
-  if (Array.isArray(d.plan)) s.plan = d.plan.filter(p => p && p.recipeId != null).map(p => {
+  if (Array.isArray(d.plan)) s.plan = d.plan.filter(p => p && (p.recipeId != null || p.kind === "out")).map(p => {
     let date = typeof p.date === "string" && YMD.test(p.date) ? p.date : null;
     if (!date) date = addDays(thisMonday, Math.min(6, Math.max(0, parseInt(p.day, 10) || 0))); // старый план без дат → текущая неделя
+    const type = SLOTS.includes(p.type) ? p.type : "hot";
+    if (p.kind === "out") return { id:String(p.id || uid()), kind:"out", date, type, outKind: OUT_L[p.outKind] ? p.outKind : "delivery", days:1 };
     return {
-      id:String(p.id || uid()), date,
-      type: SLOTS.includes(p.type) ? p.type : "hot",
+      id:String(p.id || uid()), kind:"dish", date, type,
       recipeId:String(p.recipeId),
       days: Math.min(7, Math.max(1, parseInt(p.days, 10) || 1)),
+      portions: Math.max(0, parseInt(p.portions, 10) || 0) || null,
       sideId: p.sideId ? String(p.sideId) : null,
+      extras: Array.isArray(p.extras) ? p.extras.map(normExtra).filter(Boolean) : [],
+      extrasOpen: !!p.extrasOpen,
       fromFridge: !!p.fromFridge
     };
   }).filter(p => diffDays(lastDate(p), today) <= 90); // старше трёх месяцев не храним
+  if (Array.isArray(d.events)) s.events = d.events.filter(e => e && typeof e.date === "string" && YMD.test(e.date)).map(e => ({
+    id:String(e.id || uid()), date:e.date,
+    title: typeof e.title === "string" && e.title.trim() ? e.title.trim() : "Званый ужин",
+    people: Math.min(60, Math.max(1, parseInt(e.people, 10) || 6)),
+    dishes: Array.isArray(e.dishes) ? e.dishes.filter(x => x && x.recipeId).map(x => ({ id:String(x.id || uid()), recipeId:String(x.recipeId), portions: Math.max(1, parseInt(x.portions, 10) || 1) })) : []
+  })).filter(e => diffDays(e.date, today) <= 90);
   if (d.bought && typeof d.bought === "object" && !Array.isArray(d.bought)){
     Object.keys(d.bought).forEach(k => { if (YMD.test(k) && Array.isArray(d.bought[k])) s.bought[k] = d.bought[k].map(String); });
   }
@@ -423,7 +509,15 @@ function normalize(d){
       recipeId: dish && f.recipeId ? String(f.recipeId) : null
     };
   });
-  if (d.settings && typeof d.settings === "object") s.settings.people = Math.min(20, Math.max(1, parseInt(d.settings.people, 10) || 1));
+  if (d.settings && typeof d.settings === "object"){
+    const st = d.settings;
+    s.settings.people = Math.min(20, Math.max(1, parseInt(st.people, 10) || 1));
+    s.settings.weekdayMax = [0, 30, 45, 60].includes(Number(st.weekdayMax)) ? Number(st.weekdayMax) : 0;
+    const rd = parseInt(st.remDay, 10);
+    s.settings.remDay = rd >= 0 && rd <= 6 ? rd : 6;
+    s.settings.remTime = typeof st.remTime === "string" && /^\d{2}:\d{2}$/.test(st.remTime) ? st.remTime : "12:00";
+    s.settings.remDismissed = typeof st.remDismissed === "string" ? st.remDismissed : null;
+  }
   s.fridgeReviewedAt = Number(d.fridgeReviewedAt) || 0;
   s.updatedAt = Number(d.updatedAt) || 0;
   return s;
@@ -453,12 +547,18 @@ async function saveNow(){
   if (saveAgain){ saveAgain = false; saveNow(); }
 }
 
-const UI = { view:"week", weekStart: mondayOf(todayStr()), day: dayIdx(todayStr()), filter:"all", q:"", open:{} };
+const UI = { view:"week", weekStart: mondayOf(todayStr()), day: dayIdx(todayStr()), filter:"all", q:"", open:{}, scale:{} };
 function commit(){ S.updatedAt = Date.now(); scheduleSave(); render(); }
 
 function recipeById(id){ return id ? S.recipes.find(r => r.id === id) : null; }
 function fridgeDish(recipeId){ return S.fridge.find(f => f.kind === "dish" && f.recipeId === recipeId); }
 function dishName(f){ const r = recipeById(f.recipeId); return r ? r.name : f.name; }
+function isOut(p){ return p.kind === "out"; }
+function portionsOf(p){ const r = recipeById(p.recipeId); return p.portions || (r ? r.servings : 1); }
+function validPlan(){ return S.plan.filter(p => isOut(p) || recipeById(p.recipeId)); }
+function eventsOn(date){ return S.events.filter(e => e.date === date); }
+function extraName(x){ if (x.kind === "recipe"){ const r = recipeById(x.recipeId); return r ? r.name : ""; } return x.name; }
+function extrasLabel(p){ return (p.extras || []).map(extraName).filter(Boolean).join(", "); }
 
 /* ---------- photo ---------- */
 function readPhoto(file){
@@ -582,7 +682,8 @@ function renderRecipes(){
   el.innerHTML = list.map(r => {
     const n = r.ingredients.length;
     const open = !!UI.open[r.id];
-    const meta = r.servings + ' ' + pl(r.servings,"порция","порции","порций") + ' · ' + n + ' ' + pl(n,"ингредиент","ингредиента","ингредиентов") + (r.type === "hot" && r.needsSide ? ' · с гарниром' : '');
+    const sc = UI.scale[r.id] || r.servings;
+    const meta = r.servings + ' ' + pl(r.servings,"порция","порции","порций") + (r.time ? ' · ' + fmtTime(r.time) : '') + ' · ' + n + ' ' + pl(n,"ингредиент","ингредиента","ингредиентов") + (r.type === "hot" && r.needsSide ? ' · с гарниром' : '');
     let html = '<article class="rcard" data-id="' + r.id + '">' +
       '<button class="rhead" data-act="toggle" aria-expanded="' + open + '">' +
         (r.photo ? '<img class="thumb" src="' + esc(r.photo) + '" alt="">' : '') +
@@ -592,9 +693,12 @@ function renderRecipes(){
     if (open){
       html += '<div class="rbody">' +
         (r.photo ? '<img class="rphoto" src="' + esc(r.photo) + '" alt="' + esc(r.name) + '">' : '') +
-        '<h4>Ингредиенты</h4><ul class="ings">' +
-          r.ingredients.map(i => '<li><span>' + esc(i.name) + '</span><span class="q">' + esc(showQty(i.qty, i.unit)) + '</span></li>').join("") +
+        '<div class="scalebar"><h4>Ингредиенты на</h4><span class="stp"><button data-act="sdec" aria-label="Меньше порций"' + (sc <= 1 ? ' disabled' : '') + '>−</button><output>' + sc + ' ' + pl(sc,"порцию","порции","порций") + '</output><button data-act="sinc" aria-label="Больше порций">+</button></span></div>' +
+        '<ul class="ings">' +
+          r.ingredients.map(i => '<li><span>' + esc(i.name) + '</span><span class="q">' + esc(showQty(i.qty == null ? null : i.qty * sc / r.servings, i.unit)) + '</span></li>').join("") +
         '</ul>' +
+        (sc !== r.servings ? '<p class="muted" style="font-size:.82rem;margin:4px 0 0">Пересчитано с ' + r.servings + ' ' + pl(r.servings,"порции","порций","порций") + ' по рецепту.</p>' : '') +
+        (r.time ? '<h4>Время приготовления</h4><p style="margin:0">' + fmtTime(r.time) + '</p>' : '') +
         (r.steps && r.steps.trim() ? '<h4>Как готовить</h4><p class="steps">' + esc(r.steps.trim()) + '</p>' : '') +
         '<div class="ractions"><button class="btn" data-act="edit">Изменить</button><button class="btn danger" data-act="del">Удалить</button></div></div>';
     }
@@ -608,19 +712,30 @@ $("recipe-list").addEventListener("click", e => {
   const b = e.target.closest("[data-act]"); if (!b) return;
   const id = b.closest("[data-id]").dataset.id;
   if (b.dataset.act === "toggle"){ UI.open[id] = !UI.open[id]; renderRecipes(); }
+  if (b.dataset.act === "sinc" || b.dataset.act === "sdec"){
+    const r = recipeById(id); if (!r) return;
+    UI.scale[id] = Math.min(100, Math.max(1, (UI.scale[id] || r.servings) + (b.dataset.act === "sinc" ? 1 : -1)));
+    renderRecipes(); return;
+  }
   if (b.dataset.act === "edit") openRecipeEditor(id);
   if (b.dataset.act === "del") deleteRecipe(id);
 });
 function dropRecipeRefs(ids){
-  // план и холодильник не должны ссылаться на исчезнувшие рецепты
-  S.plan = S.plan.filter(p => !ids.has(p.recipeId));
-  S.plan.forEach(p => { if (p.sideId && ids.has(p.sideId)) p.sideId = null; });
+  // план, званые ужины и холодильник не должны ссылаться на исчезнувшие рецепты
+  S.plan = S.plan.filter(p => isOut(p) || !ids.has(p.recipeId));
+  S.plan.forEach(p => {
+    if (isOut(p)) return;
+    if (p.sideId && ids.has(p.sideId)) p.sideId = null;
+    p.extras = (p.extras || []).filter(x => !(x.kind === "recipe" && ids.has(x.recipeId)));
+  });
+  S.events.forEach(e => { e.dishes = e.dishes.filter(x => !ids.has(x.recipeId)); });
   S.fridge.forEach(f => { if (f.recipeId && ids.has(f.recipeId)) f.recipeId = null; });
 }
 function deleteRecipe(id){
   const r = recipeById(id); if (!r) return;
-  const uses = S.plan.filter(p => p.recipeId === id || p.sideId === id).length;
-  const text = "Удалить рецепт «" + r.name + "»?" + (uses ? " Он стоит в плане (" + uses + " " + pl(uses,"раз","раза","раз") + "), оттуда он тоже пропадёт." : "");
+  const uses = S.plan.filter(p => !isOut(p) && (p.recipeId === id || p.sideId === id || (p.extras || []).some(x => x.recipeId === id))).length +
+    S.events.filter(e => e.dishes.some(x => x.recipeId === id)).length;
+  const text = "Удалить рецепт «" + r.name + "»?" + (uses ? " Он используется в плане или в меню званого ужина (" + uses + " " + pl(uses,"раз","раза","раз") + "), оттуда он тоже пропадёт." : "");
   askConfirm(text, "Удалить", () => {
     S.recipes = S.recipes.filter(x => x.id !== id);
     S.deleted = S.deleted.filter(x => x.id !== id).concat([{ id, at: Date.now() }]);
@@ -632,7 +747,7 @@ function deleteRecipe(id){
 
 function openRecipeEditor(id, presetType, onSaved){
   const src = recipeById(id);
-  const r = src ? clone(src) : { id:null, name:"", type: presetType || (UI.filter !== "all" ? UI.filter : "hot"), servings:2, ingredients:[], steps:"", photo:null, needsSide:false };
+  const r = src ? clone(src) : { id:null, name:"", type: presetType || (UI.filter !== "all" ? UI.filter : "hot"), servings:2, ingredients:[], steps:"", photo:null, needsSide:false, time:null };
   if (!r.ingredients.length) r.ingredients.push({name:"", qty:null, unit:"г"});
 
   const body =
@@ -646,6 +761,7 @@ function openRecipeEditor(id, presetType, onSaved){
     '<div class="field"><span>Сколько порций получается</span><div class="num">' +
       '<button type="button" data-sv="-1" aria-label="Меньше">−</button><input id="e-serv" inputmode="numeric" value="' + r.servings + '" aria-label="Порций"><button type="button" data-sv="1" aria-label="Больше">+</button>' +
     '</div></div>' +
+    '<label class="field"><span>Время приготовления, минут</span><input class="inp" id="e-time" inputmode="numeric" value="' + (r.time || "") + '" placeholder="Например, 40" style="max-width:160px"></label>' +
     '<div class="field"><span>Ингредиенты</span>' +
       '<div class="ihead"><span>Продукт</span><span>Кол-во</span><span>Единица</span><span></span></div>' +
       '<div id="e-ings"></div>' +
@@ -730,6 +846,7 @@ function openRecipeEditor(id, presetType, onSaved){
       id: r.id || uid(), name, type: r.type, servings, ingredients: ings,
       steps: el.querySelector("#e-steps").value, photo: r.photo || null,
       needsSide: r.type === "hot" && el.querySelector("#e-side").checked,
+      time: Math.max(0, parseInt(el.querySelector("#e-time").value, 10) || 0) || null,
       updatedAt: Date.now()
     };
     if (r.id){
@@ -737,7 +854,8 @@ function openRecipeEditor(id, presetType, onSaved){
       // тип поменялся — убираем рецепт оттуда, где он больше не подходит
       if (src.type !== rec.type){
         if (src.type === "side") S.plan.forEach(p => { if (p.sideId === rec.id) p.sideId = null; });
-        else S.plan = S.plan.filter(p => p.recipeId !== rec.id || p.type === rec.type);
+        else if (src.type === "sauce") S.plan.forEach(p => { if (p.extras) p.extras = p.extras.filter(x => x.recipeId !== rec.id); });
+        else S.plan = S.plan.filter(p => isOut(p) || p.recipeId !== rec.id || p.type === rec.type);
       }
     } else S.recipes.push(rec);
     s.close();
@@ -749,27 +867,68 @@ function openRecipeEditor(id, presetType, onSaved){
 }
 
 /* ---------- week ---------- */
-function validPlan(){ return S.plan.filter(p => recipeById(p.recipeId)); }
+function reminderDue(){
+  const today = todayStr(), ws = mondayOf(today);
+  if (S.settings.remDismissed === ws) return false;
+  const [h, m] = S.settings.remTime.split(":").map(Number);
+  const at = parseD(addDays(ws, S.settings.remDay)); at.setHours(h, m, 0, 0);
+  return Date.now() >= at.getTime();
+}
+function reminderBannerHtml(){
+  if (!reminderDue()) return "";
+  return '<div class="banner"><p><b>Пора готовиться к следующей неделе.</b> Проверьте холодильник и запланируйте меню, тогда список покупок соберётся точным.</p>' +
+    '<div class="banner-actions"><button class="btn primary" data-rem="fridge">Проверить холодильник</button><button class="btn" data-rem="plan">Спланировать неделю</button></div>' +
+    '<button class="link" data-rem="hide" style="align-self:flex-start;padding:0">Скрыть до следующей недели</button></div>';
+}
+function onReminder(btn){
+  const a = btn.dataset.rem;
+  if (a === "hide"){ S.settings.remDismissed = mondayOf(todayStr()); commit(); return; }
+  if (a === "fridge"){ setView("fridge", true); if (S.fridge.length) openReview(); return; }
+  if (a === "plan"){ UI.weekStart = addDays(mondayOf(todayStr()), 7); UI.day = 0; setView("week", true); openAutoPlan(); }
+}
+function stepperHtml(label, value, word, decAct, incAct, min, max){
+  return '<div class="stepper"><span class="lbl">' + label + '</span><span class="stp">' +
+    '<button data-act="' + decAct + '" aria-label="Меньше"' + (value <= min ? " disabled" : "") + '>−</button>' +
+    '<output>' + value + ' ' + word + '</output>' +
+    '<button data-act="' + incAct + '" aria-label="Больше"' + (value >= max ? " disabled" : "") + '>+</button></span></div>';
+}
 function entryHtml(p){
+  if (isOut(p)){
+    return '<div class="entry out" data-id="' + p.id + '"><span class="en">Не дома: ' + esc(OUT_L[p.outKind].toLowerCase()) + '</span>' +
+      '<button class="rm" data-act="rm" aria-label="Убрать отметку">×</button><span class="es">Готовить не нужно, продукты не покупаются</span></div>';
+  }
   const r = recipeById(p.recipeId);
   const side = recipeById(p.sideId);
   const days = Math.min(Math.max(1, p.days), 7);
+  const por = portionsOf(p);
+  const extrasOn = p.extrasOpen || (p.extras && p.extras.length);
   let html = '<div class="entry" data-id="' + p.id + '">' +
     '<span class="en">' + esc(r.name) + '</span>' +
     '<button class="rm" data-act="rm" aria-label="Убрать из плана">×</button>' +
-    '<span class="es">Рецепт на ' + r.servings + ' ' + pl(r.servings,"порцию","порции","порций") + (fridgeDish(r.id) ? ' · <span class="badge">есть готовое</span>' : '') + '</span>';
+    '<span class="es">По рецепту ' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + (r.time ? ' · ' + fmtTime(r.time) : '') + (fridgeDish(r.id) ? ' · <span class="badge">есть готовое</span>' : '') + '</span>';
   if (p.type === "hot"){
     if (side) html += '<div class="sideline"><span class="sl"><i>Гарнир:</i> ' + esc(side.name) + '</span><button class="mini" data-act="side">Изменить</button></div>';
     else html += '<div class="sideline' + (r.needsSide ? ' need' : '') + '"><span class="sl"><i>' + (r.needsSide ? 'Нужен гарнир' : 'Без гарнира') + '</i></span><button class="mini" data-act="side">Выбрать гарнир</button></div>';
   }
-  html += '<div class="stepper"><span class="lbl">Хватит на</span><span class="stp">' +
-      '<button data-act="dec" aria-label="Меньше дней"' + (days <= 1 ? " disabled" : "") + '>−</button>' +
-      '<output>' + days + ' ' + pl(days,"день","дня","дней") + '</output>' +
-      '<button data-act="inc" aria-label="Больше дней"' + (days >= 7 ? " disabled" : "") + '>+</button>' +
-    '</span></div>' +
-    '<label class="ready"><input type="checkbox" data-ready' + (p.fromFridge ? ' checked' : '') + '> Уже приготовлено, продукты не покупать</label>' +
-  '</div>';
+  html += stepperHtml("Порций", por, pl(por,"порция","порции","порций"), "pdec", "pinc", 1, 100);
+  html += stepperHtml("Хватит на", days, pl(days,"день","дня","дней"), "dec", "inc", 1, 7);
+  html += '<label class="ready"><input type="checkbox" data-extras' + (extrasOn ? ' checked' : '') + '> Доп. ингредиенты</label>';
+  if (extrasOn){
+    html += '<div class="extras">' + (p.extras || []).map(x => {
+      const q = x.kind === "ing" ? showQty(x.qty, x.unit) : "соус";
+      return '<div class="xrow"><span>' + esc(extraName(x)) + '</span><span class="q">' + esc(q) + '</span><button class="rm" data-act="xrm" data-x="' + x.id + '" aria-label="Убрать">×</button></div>';
+    }).join("") +
+    '<div class="xadd"><button class="mini" data-act="xsauce">+ Соус</button><button class="mini" data-act="xing">+ Продукт</button></div></div>';
+  }
+  html += '<label class="ready"><input type="checkbox" data-ready' + (p.fromFridge ? ' checked' : '') + '> Уже приготовлено, продукты не покупать</label></div>';
   return html;
+}
+function partyCardHtml(e){
+  const n = e.dishes.length;
+  const time = e.dishes.reduce((s, x) => s + ((recipeById(x.recipeId) || {}).time || 0), 0);
+  return '<button class="party" data-ev="' + e.id + '"><span class="pt">' + esc(e.title) + '</span>' +
+    '<span class="pm">' + e.people + ' ' + pl(e.people,"человек","человека","человек") + ' · ' + (n ? n + ' ' + pl(n,"блюдо","блюда","блюд") : 'меню ещё не выбрано') + (time ? ' · готовить ≈ ' + fmtTime(time) : '') + '</span>' +
+    '<span class="pgo">Открыть меню ›</span></button>';
 }
 function renderWeek(){
   const ws = UI.weekStart, today = todayStr();
@@ -779,40 +938,50 @@ function renderWeek(){
     const date = addDays(ws, i);
     const covered = new Set(valid.filter(p => covers(p, date)).map(p => p.type));
     const cls = "day" + (date === today ? " is-today" : "") + (date < today ? " is-past" : "");
-    return '<button class="' + cls + '" data-d="' + i + '" aria-pressed="' + (UI.day === i) + '" aria-label="' + DAYS[i] + ', ' + fmtDate(date) + '">' +
+    const ev = eventsOn(date).length;
+    return '<button class="' + cls + '" data-d="' + i + '" aria-pressed="' + (UI.day === i) + '" aria-label="' + DAYS[i] + ', ' + fmtDate(date) + (ev ? ', званый ужин' : '') + '">' +
+      (ev ? '<span class="ev" aria-hidden="true"></span>' : '') +
       '<span class="dn">' + d + '</span><span class="dd">' + parseD(date).getDate() + '</span>' +
       '<span class="bars" aria-hidden="true">' + SLOTS.map(t => '<i class="t-' + t + (covered.has(t) ? " on" : "") + '"></i>').join("") + '</span></button>';
   }).join("");
 
   const date = addDays(ws, UI.day);
-  let html = '<button class="btn wide auto" data-act="auto">Подобрать меню на неделю</button>' +
-    '<div class="dayhead"><h2>' + DAYS[UI.day] + ', ' + fmtDate(date) + '</h2>' + (date === today ? '<span class="muted" style="font-size:.85rem">сегодня</span>' : '') + '</div>';
+  let html = reminderBannerHtml() +
+    '<button class="btn wide auto" data-act="auto">Подобрать меню на неделю</button>' +
+    '<div class="dayhead"><h2>' + DAYS[UI.day] + ', ' + fmtDate(date) + '</h2>' + (date === today ? '<span class="muted" style="font-size:.85rem">сегодня</span>' : '') + '</div>' +
+    '<div class="daytools"><button class="mini" data-act="dayout">Весь день не дома</button><button class="mini" data-act="party">Званый ужин</button></div>';
+  eventsOn(date).forEach(e => { html += partyCardHtml(e); });
   SLOTS.forEach(t => {
     const starts = valid.filter(p => p.date === date && p.type === t);
     const conts = valid.filter(p => p.type === t && p.date < date && covers(p, date));
     html += '<section class="slot t-' + t + '"><h3>' + TYPE_L[t] + '</h3>';
     starts.forEach(p => { html += entryHtml(p); });
     conts.forEach(p => {
-      const r = recipeById(p.recipeId), side = recipeById(p.sideId);
+      const r = recipeById(p.recipeId), side = recipeById(p.sideId), ex = extrasLabel(p);
       const n = diffDays(p.date, date) + 1;
-      html += '<div class="cont"><b>' + esc(r.name) + (side ? ' + ' + esc(side.name) : '') + '</b><span>Приготовлено ' + DAYS_IN[dayIdx(p.date)] + ', ' + fmtDate(p.date) + ' · день ' + n + ' из ' + p.days + '</span></div>';
+      html += '<div class="cont"><b>' + esc(r.name) + (side ? ' + ' + esc(side.name) : '') + '</b>' + (ex ? '<span>' + esc('с добавками: ' + ex) + '</span>' : '') +
+        '<span>Приготовлено ' + DAYS_IN[dayIdx(p.date)] + ', ' + fmtDate(p.date) + ' · день ' + n + ' из ' + p.days + '</span></div>';
     });
     html += '<button class="add" data-act="add" data-type="' + t + '">Выбрать блюдо</button></section>';
   });
-  const inW = valid.filter(p => inWeek(p.date, ws));
+  const inW = valid.filter(p => inWeek(p.date, ws) && !isOut(p));
   html += '<div class="weekfoot"><span class="muted">' + (inW.length ? "На неделе " + inW.length + " " + pl(inW.length,"блюдо","блюда","блюд") : "План на эту неделю пуст") + '</span>' +
-    (inW.length ? '<button class="link" data-act="clear">Очистить неделю</button>' : '') + '</div>';
+    (valid.some(p => inWeek(p.date, ws)) ? '<button class="link" data-act="clear">Очистить неделю</button>' : '') + '</div>';
   $("day-body").innerHTML = html;
 }
 $("week-nav").addEventListener("click", e => { const b = e.target.closest("[data-wk]"); if (b) onWeekNav(b); });
 $("days").addEventListener("click", e => { const b = e.target.closest("[data-d]"); if (!b) return; UI.day = Number(b.dataset.d); renderWeek(); });
 $("day-body").addEventListener("click", e => {
+  const rem = e.target.closest("[data-rem]"); if (rem) return onReminder(rem);
+  const ev = e.target.closest("[data-ev]"); if (ev) return openParty(ev.dataset.ev);
   const b = e.target.closest("[data-act]"); if (!b) return;
   const act = b.dataset.act;
   const date = addDays(UI.weekStart, UI.day);
   if (act === "add") return openPicker(date, b.dataset.type);
   if (act === "auto") return openAutoPlan();
-  if (act === "clear") return askConfirm("Убрать все блюда, которые готовятся на неделе " + weekLabel(UI.weekStart) + "? Рецепты в справочнике останутся.", "Очистить", () => {
+  if (act === "dayout") return openDayOut(date);
+  if (act === "party") return openParty(null, date);
+  if (act === "clear") return askConfirm("Убрать все блюда и отметки «не дома» на неделе " + weekLabel(UI.weekStart) + "? Рецепты и званые ужины останутся.", "Очистить", () => {
     S.plan = S.plan.filter(p => !inWeek(p.date, UI.weekStart));
     delete S.bought[UI.weekStart];
     commit(); toast("Неделя очищена");
@@ -821,35 +990,56 @@ $("day-body").addEventListener("click", e => {
   const p = S.plan.find(x => x.id === row.dataset.id); if (!p) return;
   if (act === "rm"){ S.plan = S.plan.filter(x => x.id !== p.id); commit(); return; }
   if (act === "side") return openSidePicker(p.id);
+  if (act === "xsauce") return openSaucePicker(p.id);
+  if (act === "xing") return openExtraIng(p.id);
+  if (act === "xrm"){ p.extras = (p.extras || []).filter(x => x.id !== b.dataset.x); commit(); return; }
   if (act === "inc") p.days = Math.min(7, (p.days || 1) + 1);
   if (act === "dec") p.days = Math.max(1, (p.days || 1) - 1);
+  if (act === "pinc") p.portions = Math.min(100, portionsOf(p) + 1);
+  if (act === "pdec") p.portions = Math.max(1, portionsOf(p) - 1);
   commit();
 });
 $("day-body").addEventListener("change", e => {
-  const c = e.target.closest("[data-ready]"); if (!c) return;
-  const p = S.plan.find(x => x.id === c.closest("[data-id]").dataset.id); if (!p) return;
-  p.fromFridge = c.checked; commit();
+  const row = e.target.closest("[data-id]"); if (!row) return;
+  const p = S.plan.find(x => x.id === row.dataset.id); if (!p) return;
+  if (e.target.matches("[data-ready]")){ p.fromFridge = e.target.checked; commit(); }
+  if (e.target.matches("[data-extras]")){
+    if (e.target.checked){ p.extrasOpen = true; commit(); return; }
+    const had = (p.extras || []).length;
+    p.extras = []; p.extrasOpen = false; commit();
+    if (had) toast("Доп. ингредиенты убраны");
+  }
 });
 function addToPlan(date, type, recipeId, fromFridge){
-  const p = { id: uid(), date, type, recipeId, days: 1, sideId: null, fromFridge: !!fromFridge };
+  const r = recipeById(recipeId);
+  const p = { id: uid(), kind:"dish", date, type, recipeId, days: 1, portions: r ? r.servings : null, sideId: null, extras: [], extrasOpen: false, fromFridge: !!fromFridge };
   S.plan.push(p);
   return p;
 }
+function addOut(date, type, outKind){
+  S.plan.push({ id: uid(), kind:"out", date, type, outKind, days:1 });
+}
 function pickRow(r, extra){
   return '<button data-r="' + r.id + '">' + (r.photo ? '<img class="thumb" src="' + esc(r.photo) + '" alt="">' : '') +
-    '<span class="pn">' + esc(r.name) + (extra || '') + '</span><span class="ps">' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + '</span></button>';
+    '<span class="pn">' + esc(r.name) + (extra || '') + '</span><span class="ps">' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + (r.time ? '<br>' + fmtTime(r.time) : '') + '</span></button>';
 }
 function openPicker(date, type){
   const list = S.recipes.filter(r => r.type === type).sort((a,b) => (!!fridgeDish(b.id) - !!fridgeDish(a.id)) || a.name.localeCompare(b.name, "ru"));
-  const body = list.length
-    ? '<div class="pick">' + list.map(r => pickRow(r, fridgeDish(r.id) ? '<br><span class="badge">есть готовое в холодильнике</span>' : '')).join("") + '</div>'
-    : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет блюд типа «' + TYPE_L[type] + '». Добавьте рецепт, и он сразу встанет в план.</p>';
+  const body =
+    '<div class="field"><span>Не дома</span><div class="outs">' + OUT_KINDS.map(o => '<button class="chip" data-out="' + o.k + '">' + o.l + '</button>').join("") + '</div></div>' +
+    '<div class="field"><span>Блюдо из справочника</span>' +
+    (list.length
+      ? '<div class="pick">' + list.map(r => pickRow(r, fridgeDish(r.id) ? '<br><span class="badge">есть готовое в холодильнике</span>' : '')).join("") + '</div>'
+      : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет блюд типа «' + TYPE_L[type] + '». Добавьте рецепт, и он сразу встанет в план.</p>') +
+    '</div>';
   const s = openSheet(TYPE_L[type] + " на " + DAYS_ACC[dayIdx(date)] + ", " + fmtDate(date), body, '<button class="btn wide" data-new>Новый рецепт</button>');
   const after = p => {
     const r = recipeById(p.recipeId);
     if (type === "hot" && r && r.needsSide && S.recipes.some(x => x.type === "side")) setTimeout(() => openSidePicker(p.id), 60);
   };
   s.el.addEventListener("click", e => {
+    const o = e.target.closest("[data-out]");
+    if (o){ addOut(date, type, o.dataset.out); s.close(); commit(); toast("Отмечено: " + OUT_L[o.dataset.out].toLowerCase()); return; }
     const b = e.target.closest("[data-r]");
     if (b){
       const p = addToPlan(date, type, b.dataset.r, !!fridgeDish(b.dataset.r));
@@ -859,6 +1049,19 @@ function openPicker(date, type){
       s.close();
       openRecipeEditor(null, type, rec => { if (SLOTS.includes(rec.type)){ const p = addToPlan(date, rec.type, rec.id, false); after(p); } });
     }
+  });
+}
+function openDayOut(date){
+  const free = SLOTS.filter(t => !validPlan().some(p => p.type === t && covers(p, date)));
+  const body = free.length
+    ? '<p style="margin:2px 0 12px">Свободные приёмы пищи ' + DAYS_IN[dayIdx(date)] + ', ' + fmtDate(date) + ' будут отмечены как «не дома»: ' + free.map(t => TYPE_L[t].toLowerCase()).join(", ") + '. Блюда, которые уже стоят в плане, останутся.</p>' +
+      '<div class="outs">' + OUT_KINDS.map(o => '<button class="chip" data-out="' + o.k + '">' + o.l + '</button>').join("") + '</div>'
+    : '<p style="margin:2px 0 8px">На этот день все приёмы пищи уже заняты. Уберите блюда, которые не нужны, и повторите.</p>';
+  const s = openSheet("Весь день не дома", body, "");
+  s.el.addEventListener("click", e => {
+    const o = e.target.closest("[data-out]"); if (!o) return;
+    free.forEach(t => addOut(date, t, o.dataset.out));
+    s.close(); commit(); toast("День отмечен: " + OUT_L[o.dataset.out].toLowerCase());
   });
 }
 function openSidePicker(entryId){
@@ -877,20 +1080,168 @@ function openSidePicker(entryId){
     if (e.target.closest("[data-new]")){ s.close(); openRecipeEditor(null, "side", rec => { if (rec.type === "side") p.sideId = rec.id; }); }
   });
 }
+function openSaucePicker(entryId){
+  const p = S.plan.find(x => x.id === entryId); if (!p) return;
+  const main = recipeById(p.recipeId);
+  const list = S.recipes.filter(r => r.type === "sauce").sort((a,b) => a.name.localeCompare(b.name, "ru"));
+  const body = list.length
+    ? '<p class="muted" style="margin:0 0 10px;font-size:.88rem">Продукты для соуса будут пересчитаны на ' + portionsOf(p) + ' ' + pl(portionsOf(p),"порцию","порции","порций") + ' блюда.</p><div class="pick">' + list.map(r => pickRow(r, fridgeDish(r.id) ? '<br><span class="badge">есть готовый в холодильнике</span>' : '')).join("") + '</div>'
+    : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет соусов. Добавьте рецепт с типом «Соус».</p>';
+  const s = openSheet("Соус к блюду «" + (main ? main.name : "") + "»", body, '<button class="btn wide" data-new>Новый соус</button>');
+  const add = id => { p.extras = (p.extras || []).concat([{ id: uid(), kind:"recipe", recipeId:id }]); p.extrasOpen = true; };
+  s.el.addEventListener("click", e => {
+    const b = e.target.closest("[data-r]");
+    if (b){ add(b.dataset.r); s.close(); commit(); return; }
+    if (e.target.closest("[data-new]")){ s.close(); openRecipeEditor(null, "sauce", rec => { if (rec.type === "sauce") add(rec.id); }); }
+  });
+}
+function openExtraIng(entryId){
+  const p = S.plan.find(x => x.id === entryId); if (!p) return;
+  const main = recipeById(p.recipeId);
+  const body = '<p class="err" id="x-err"></p>' +
+    '<label class="field"><span>Продукт</span><input class="inp" id="x-name" list="ing-names" placeholder="Например, шоколад или банан" autocomplete="off"></label>' +
+    '<div class="field"><span>Сколько на всё блюдо</span><div class="irow" style="grid-template-columns:1fr 110px">' +
+      '<input class="inp" id="x-qty" inputmode="decimal" placeholder="0">' +
+      '<select class="inp" id="x-unit">' + UNITS.map(u => '<option' + (u === "г" ? " selected" : "") + '>' + u + '</option>').join("") + '</select>' +
+    '</div><p class="muted" style="font-size:.84rem;margin:6px 0 0">Количество указывается на всё приготовление (на ' + portionsOf(p) + ' ' + pl(portionsOf(p),"порцию","порции","порций") + ') и попадёт в список покупок.</p></div>';
+  const s = openSheet("Добавка к блюду «" + (main ? main.name : "") + "»", body, '<button class="btn" data-close>Отмена</button><button class="btn primary" data-save>Добавить</button>', {sticky:true});
+  setTimeout(() => s.el.querySelector("#x-name").focus(), 50);
+  s.el.querySelector("[data-save]").addEventListener("click", () => {
+    const name = s.el.querySelector("#x-name").value.trim();
+    if (!name){ s.el.querySelector("#x-err").textContent = "Укажите продукт."; return; }
+    p.extras = (p.extras || []).concat([{ id: uid(), kind:"ing", name, qty: parseQty(s.el.querySelector("#x-qty").value), unit: s.el.querySelector("#x-unit").value }]);
+    p.extrasOpen = true;
+    s.close(); commit();
+  });
+}
+
+/* ---------- dinner party ---------- */
+function openParty(id, date){
+  const src = id ? S.events.find(e => e.id === id) : null;
+  const ev = src ? clone(src) : { id:null, date: date || todayStr(), title:"Званый ужин", people: 6, dishes:[] };
+  const body =
+    '<div class="field"><span>Название</span><input class="inp" id="p-title" value="' + esc(ev.title) + '" autocomplete="off"></div>' +
+    '<div class="prow2">' +
+      '<label class="field"><span>Дата</span><input class="inp" type="date" id="p-date" value="' + ev.date + '"></label>' +
+      '<div class="field"><span>Человек за столом</span><div class="num"><button type="button" data-pp="-1" aria-label="Меньше">−</button><input id="p-people" inputmode="numeric" value="' + ev.people + '" aria-label="Человек"><button type="button" data-pp="1" aria-label="Больше">+</button></div></div>' +
+    '</div>' +
+    '<button type="button" class="btn wide auto" data-pauto style="margin-bottom:6px">Подобрать меню автоматически</button>' +
+    '<div id="p-courses"></div>' +
+    '<div id="p-sum" class="psum"></div>';
+  const foot = (src ? '<button class="btn danger" data-del>Удалить</button>' : '<button class="btn" data-close>Отмена</button>') + '<button class="btn primary" data-save>Сохранить</button>';
+  const s = openSheet(src ? ev.title : "Новый званый ужин", body, foot, {sticky:true});
+  const el = s.el;
+  const peopleInp = el.querySelector("#p-people");
+
+  function draw(){
+    el.querySelector("#p-courses").innerHTML = COURSES.map(c => {
+      const ds = ev.dishes.filter(x => { const r = recipeById(x.recipeId); return r && (r.type === c.k || (c.k === "salad" && r.type === "breakfast")); });
+      return '<section class="pcourse t-' + c.k + '"><h3>' + c.l + '</h3>' +
+        ds.map(x => {
+          const r = recipeById(x.recipeId);
+          return '<div class="pdish" data-pd="' + x.id + '"><span class="pn">' + esc(r.name) + (r.time ? '<small>' + fmtTime(r.time) + '</small>' : '') + '</span>' +
+            '<span class="stp"><button type="button" data-pa="dec" aria-label="Меньше порций"' + (x.portions <= 1 ? ' disabled' : '') + '>−</button><output>' + x.portions + ' порц.</output><button type="button" data-pa="inc" aria-label="Больше порций">+</button></span>' +
+            '<button type="button" class="rm" data-pa="rm" aria-label="Убрать">×</button></div>';
+        }).join("") +
+        '<button type="button" class="add" data-padd="' + c.k + '">Добавить: ' + c.l.toLowerCase() + '</button></section>';
+    }).join("");
+    const time = ev.dishes.reduce((t, x) => t + ((recipeById(x.recipeId) || {}).time || 0), 0);
+    const noTime = ev.dishes.filter(x => { const r = recipeById(x.recipeId); return r && !r.time; }).length;
+    el.querySelector("#p-sum").innerHTML = ev.dishes.length
+      ? '<p><b>' + ev.dishes.length + ' ' + pl(ev.dishes.length,"блюдо","блюда","блюд") + '</b>' + (time ? ', общее время готовки ≈ ' + fmtTime(time) + (noTime ? ' (без учёта ' + noTime + ' ' + pl(noTime,"блюда","блюд","блюд") + ' без указанного времени)' : '') : '') + '.</p>' +
+        '<p class="muted">Продукты попадут в список покупок недели ' + weekLabel(mondayOf(ev.date)) + '. Количество пересчитывается по числу порций каждого блюда.</p>'
+      : '<p class="muted">Добавьте блюда вручную или нажмите «Подобрать меню автоматически». Продукты для ужина попадут в список покупок той недели, на которую он назначен.</p>';
+  }
+  draw();
+  function readPeople(){ return Math.min(60, Math.max(1, parseInt(peopleInp.value, 10) || 1)); }
+  el.querySelectorAll("[data-pp]").forEach(b => b.addEventListener("click", () => {
+    const old = readPeople();
+    const v = Math.min(60, Math.max(1, old + Number(b.dataset.pp)));
+    peopleInp.value = v;
+    ev.dishes.forEach(x => { if (x.portions === old) x.portions = v; }); // блюда «на всех» следуют за числом гостей
+    ev.people = v; draw();
+  }));
+  peopleInp.addEventListener("change", () => {
+    const v = readPeople();
+    ev.dishes.forEach(x => { if (x.portions === ev.people) x.portions = v; });
+    ev.people = v; peopleInp.value = v; draw();
+  });
+  el.querySelector("#p-courses").addEventListener("click", e => {
+    const add = e.target.closest("[data-padd]");
+    if (add) return pickPartyDish(add.dataset.padd);
+    const b = e.target.closest("[data-pa]"); if (!b) return;
+    const x = ev.dishes.find(d => d.id === b.closest("[data-pd]").dataset.pd); if (!x) return;
+    if (b.dataset.pa === "rm") ev.dishes = ev.dishes.filter(d => d !== x);
+    if (b.dataset.pa === "inc") x.portions = Math.min(200, x.portions + 1);
+    if (b.dataset.pa === "dec") x.portions = Math.max(1, x.portions - 1);
+    draw();
+  });
+  function pickPartyDish(type){
+    const list = S.recipes.filter(r => r.type === type || (type === "salad" && r.type === "breakfast")).sort((a,b) => a.name.localeCompare(b.name, "ru"));
+    const course = COURSES.find(c => c.k === type);
+    const ps = openSheet(course.l, list.length
+      ? '<div class="pick">' + list.map(r => pickRow(r, ev.dishes.some(x => x.recipeId === r.id) ? ' · уже в меню' : '')).join("") + '</div>'
+      : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет подходящих рецептов.</p>', "");
+    ps.el.addEventListener("click", e => {
+      const b = e.target.closest("[data-r]"); if (!b) return;
+      ev.dishes.push({ id: uid(), recipeId: b.dataset.r, portions: readPeople() });
+      ps.close(); draw();
+    });
+  }
+  el.querySelector("[data-pauto]").addEventListener("click", () => {
+    const people = readPeople();
+    const pick = (type, n) => shuffle(S.recipes.filter(r => r.type === type)).slice(0, n);
+    const chosen = [];
+    pick("salad", 2).forEach(r => chosen.push(r));
+    const hot = pick("hot", 1)[0];
+    if (hot){
+      chosen.push(hot);
+      if (hot.needsSide){ const sd = pick("side", 1)[0]; if (sd) chosen.push(sd); }
+      const sc = pick("sauce", 1)[0]; if (sc) chosen.push(sc);
+    }
+    pick("dessert", 1).forEach(r => chosen.push(r));
+    if (!chosen.length){ toast("В справочнике пока нет подходящих рецептов"); return; }
+    ev.dishes = chosen.map(r => ({ id: uid(), recipeId: r.id, portions: people }));
+    ev.people = people;
+    draw();
+    toast("Меню подобрано, его можно поправить");
+  });
+  const del = el.querySelector("[data-del]");
+  if (del) del.addEventListener("click", () => {
+    s.close();
+    askConfirm("Удалить «" + ev.title + "»? Продукты для него уйдут из списка покупок.", "Удалить", () => {
+      S.events = S.events.filter(x => x.id !== ev.id); commit(); toast("Званый ужин удалён");
+    });
+  });
+  el.querySelector("[data-save]").addEventListener("click", () => {
+    const d = el.querySelector("#p-date").value;
+    const out = {
+      id: ev.id || uid(),
+      title: el.querySelector("#p-title").value.trim() || "Званый ужин",
+      date: YMD.test(d) ? d : ev.date,
+      people: readPeople(),
+      dishes: ev.dishes
+    };
+    if (ev.id) S.events = S.events.map(x => x.id === ev.id ? out : x); else S.events.push(out);
+    UI.weekStart = mondayOf(out.date); UI.day = dayIdx(out.date);
+    s.close(); commit(); toast(ev.id ? "Сохранено" : "Званый ужин добавлен");
+  });
+}
 
 /* ---------- automatic menu ---------- */
 function fridgeIngNames(){ return new Set(S.fridge.filter(f => f.kind === "ing").map(f => norm(f.name))); }
-function autoPlan(types, mode, people){
+function autoPlan(types, mode, people, weekdayMax){
   const ws = UI.weekStart, today = todayStr();
   const start = inWeek(today, ws) ? diffDays(ws, today) : 0; // в текущей неделе прошедшие дни не трогаем
   const firstDate = addDays(ws, start), lastDay = addDays(ws, 6);
   if (mode === "all"){
-    S.plan = S.plan.filter(p => !(types.includes(p.type) && p.date >= firstDate && p.date <= lastDay));
+    // отметки «не дома» сохраняются, заменяются только блюда
+    S.plan = S.plan.filter(p => isOut(p) || !(types.includes(p.type) && p.date >= firstDate && p.date <= lastDay));
   }
   const have = fridgeIngNames();
   const score = r => r.ingredients.filter(i => have.has(norm(i.name))).length;
   const usage = new Map();
-  S.plan.filter(p => inWeek(p.date, ws)).forEach(p => {
+  S.plan.filter(p => inWeek(p.date, ws) && !isOut(p)).forEach(p => {
     usage.set(p.recipeId, (usage.get(p.recipeId) || 0) + 1);
     if (p.sideId) usage.set(p.sideId, (usage.get(p.sideId) || 0) + 1);
   });
@@ -912,23 +1263,28 @@ function autoPlan(types, mode, people){
     let prevId = null;
     for (let d = start; d <= 6; d++){
       const date = addDays(ws, d);
-      const covering = S.plan.find(p => p.type === type && covers(p, date) && recipeById(p.recipeId));
-      if (covering){ prevId = covering.recipeId; continue; }
+      const covering = validPlan().find(p => p.type === type && covers(p, date));
+      if (covering){ prevId = covering.recipeId || null; continue; }
       let run = 0;
-      while (d + run <= 6 && !S.plan.some(p => p.type === type && covers(p, addDays(ws, d + run)) && recipeById(p.recipeId))) run++;
+      while (d + run <= 6 && !validPlan().some(p => p.type === type && covers(p, addDays(ws, d + run)))) run++;
       let recipe, fromFridge = false, portions;
       if (ready.length){
         const f = ready.shift();
         recipe = recipeById(f.recipeId); fromFridge = true;
         portions = f.qty || recipe.servings;
       } else {
-        const cands = shuffle(pool.slice()).sort((a,b) => (usage.get(a.id) || 0) - (usage.get(b.id) || 0) || score(b) - score(a));
-        recipe = (pool.length > 1 && cands[0].id === prevId) ? cands[1] : cands[0];
+        // в будни — только достаточно быстрые блюда, если такое ограничение задано
+        let usable = pool;
+        if (weekdayMax && d < 5){ const quick = pool.filter(r => !r.time || r.time <= weekdayMax); if (quick.length) usable = quick; }
+        const cands = shuffle(usable.slice()).sort((a,b) => (usage.get(a.id) || 0) - (usage.get(b.id) || 0) || score(b) - score(a));
+        recipe = (usable.length > 1 && cands[0].id === prevId) ? cands[1] : cands[0];
         portions = recipe.servings;
       }
       const days = Math.max(1, Math.min(MAX_AUTO_DAYS, run, Math.floor(portions / people) || 1));
       const p = addToPlan(date, type, recipe.id, fromFridge);
       p.days = days;
+      // если рецепта не хватает на всех, порции увеличиваются; лишнего не уменьшаем
+      if (!fromFridge) p.portions = Math.max(recipe.servings, people * days);
       if (type === "hot" && recipe.needsSide) p.sideId = pickSide();
       usage.set(recipe.id, (usage.get(recipe.id) || 0) + 1);
       prevId = recipe.id;
@@ -953,11 +1309,14 @@ function openAutoPlan(){
     '<div class="field"><span>Сколько человек едят</span><div class="num">' +
       '<button type="button" data-pp="-1" aria-label="Меньше">−</button><input id="a-people" inputmode="numeric" value="' + S.settings.people + '" aria-label="Человек"><button type="button" data-pp="1" aria-label="Больше">+</button>' +
     '</div></div>' +
+    '<label class="field"><span>Время готовки в будни</span><select class="inp" id="a-max">' +
+      [[0,"Любое"],[30,"Не больше 30 минут"],[45,"Не больше 45 минут"],[60,"Не больше часа"]].map(([v,l]) => '<option value="' + v + '"' + (S.settings.weekdayMax === v ? ' selected' : '') + '>' + l + '</option>').join("") +
+    '</select></label>' +
     '<div class="field"><span>Если в плане уже есть блюда</span>' +
       '<label class="radio"><input type="radio" name="a-mode" value="empty" checked> Заполнить только пустые места</label>' +
-      '<label class="radio"><input type="radio" name="a-mode" value="all"> Подобрать заново: выбранные приёмы пищи на неделе будут заменены</label>' +
+      '<label class="radio"><input type="radio" name="a-mode" value="all"> Подобрать заново: выбранные приёмы пищи на неделе будут заменены (отметки «не дома» останутся)</label>' +
     '</div>' +
-    '<p class="muted" style="margin:0;font-size:.86rem">Сначала в план идут готовые блюда из холодильника, затем рецепты, для которых дома уже есть продукты. Блюдо ставится на столько дней, на сколько хватает порций, но не больше ' + MAX_AUTO_DAYS + ' дней подряд. Повторы на неделе сводятся к минимуму.</p>';
+    '<p class="muted" style="margin:0;font-size:.86rem">Сначала в план идут готовые блюда из холодильника, затем рецепты, для которых дома уже есть продукты. Блюдо ставится на столько дней, на сколько хватает порций, но не больше ' + MAX_AUTO_DAYS + ' дней подряд; если рецепта не хватает на всех, порции увеличиваются. Приёмы пищи «не дома» пропускаются. Рецепты без указанного времени считаются подходящими для будней.</p>';
   const s = openSheet("Подобрать меню", body, '<button class="btn" data-close>Отмена</button><button class="btn primary" data-go>Подобрать</button>', {sticky:true});
   const ppl = s.el.querySelector("#a-people");
   s.el.querySelectorAll("[data-pp]").forEach(b => b.addEventListener("click", () => {
@@ -968,8 +1327,10 @@ function openAutoPlan(){
     if (!types.length){ toast("Отметьте хотя бы один приём пищи"); return; }
     const people = Math.min(20, Math.max(1, parseInt(ppl.value, 10) || 1));
     const mode = s.el.querySelector('input[name="a-mode"]:checked').value;
+    const weekdayMax = Number(s.el.querySelector("#a-max").value) || 0;
     S.settings.people = people;
-    const res = autoPlan(types, mode, people);
+    S.settings.weekdayMax = weekdayMax;
+    const res = autoPlan(types, mode, people, weekdayMax);
     s.close();
     commit();
     toast(res.added ? "Подобрано " + res.added + " " + pl(res.added,"блюдо","блюда","блюд") + ". Проверьте и поправьте план" : "Свободных мест в плане нет");
@@ -979,20 +1340,33 @@ function openAutoPlan(){
 /* ---------- shopping ---------- */
 function aggregate(ws){
   const need = new Map();
-  const addRecipe = r => r.ingredients.forEach(i => {
-    if (!i.name) return;
-    const [bu, k] = baseUnit(i.unit);
-    const key = norm(i.name) + "|" + bu;
+  const addIng = (name, qty, unit, label) => {
+    const [bu, k] = baseUnit(unit);
+    const key = norm(name) + "|" + bu;
     let it = need.get(key);
-    if (!it){ it = { key, nkey: norm(i.name), name: i.name.trim(), unit: bu, qty: null, from: [] }; need.set(key, it); }
-    if (i.qty != null && bu !== "по вкусу") it.qty = (it.qty || 0) + i.qty * k;
-    if (!it.from.includes(r.name)) it.from.push(r.name);
-  });
-  validPlan().filter(p => inWeek(p.date, ws)).forEach(p => {
-    if (!p.fromFridge) addRecipe(recipeById(p.recipeId));
+    if (!it){ it = { key, nkey: norm(name), name: name.trim(), unit: bu, qty: null, from: [] }; need.set(key, it); }
+    if (qty != null && bu !== "по вкусу") it.qty = (it.qty || 0) + qty * k;
+    if (!it.from.includes(label)) it.from.push(label);
+  };
+  // количество пересчитывается на нужное число порций относительно рецепта
+  const addRecipe = (r, portions, label) => {
+    const f = (portions || r.servings) / r.servings;
+    r.ingredients.forEach(i => { if (i.name) addIng(i.name, i.qty == null ? null : i.qty * f, i.unit, label || r.name); });
+  };
+  validPlan().filter(p => inWeek(p.date, ws) && !isOut(p)).forEach(p => {
+    const main = recipeById(p.recipeId), por = portionsOf(p);
+    if (!p.fromFridge) addRecipe(main, por);
     const side = recipeById(p.sideId);
-    if (side && !fridgeDish(side.id)) addRecipe(side);
+    if (side && !fridgeDish(side.id)) addRecipe(side, por);
+    (p.extras || []).forEach(x => {
+      if (x.kind === "recipe"){ const sc = recipeById(x.recipeId); if (sc && !fridgeDish(sc.id)) addRecipe(sc, por, sc.name + " к блюду «" + main.name + "»"); }
+      else addIng(x.name, x.qty, x.unit, "добавка к блюду «" + main.name + "»");
+    });
   });
+  S.events.filter(e => inWeek(e.date, ws)).forEach(e => e.dishes.forEach(x => {
+    const r = recipeById(x.recipeId);
+    if (r) addRecipe(r, x.portions, r.name + " (" + e.title.toLowerCase() + ", " + fmtDate(e.date) + ")");
+  }));
   // что уже есть в холодильнике
   const have = new Map(), haveByName = new Map();
   S.fridge.filter(f => f.kind === "ing").forEach(f => {
@@ -1052,7 +1426,7 @@ function renderShop(){
     html += '<h3 class="sh2">Уже есть дома</h3><div class="slist">' + covered.map(i =>
       '<div class="haverow"><span>' + esc(i.name) + '</span><span>' + (i.needStr ? 'нужно ' + esc(i.needStr) + ', ' : '') + 'дома ' + esc(i.haveStr) + '</span></div>').join("") + '</div>';
   }
-  html += '<p class="note">Каждое блюдо считается как один раз приготовленный рецепт, даже если его хватает на несколько дней. Блюда с отметкой «Уже приготовлено» и готовые гарниры из холодильника в список не попадают. Продукты из холодильника вычитаются из нужного количества.</p>';
+  html += '<p class="note">Количество продуктов пересчитано на число порций, выбранное для каждого блюда в плане и в меню званого ужина, и не зависит от того, на сколько дней блюда хватит. Блюда с отметкой «Уже приготовлено» и готовые гарниры из холодильника в список не попадают. Продукты из холодильника вычитаются из нужного количества.</p>';
   el.innerHTML = html;
 }
 $("shop").addEventListener("change", e => {
@@ -1112,8 +1486,8 @@ function renderFridge(){
   const el = $("fridge");
   const dishes = S.fridge.filter(f => f.kind === "dish").sort((a,b) => dishName(a).localeCompare(dishName(b), "ru"));
   const ings = S.fridge.filter(f => f.kind === "ing").sort((a,b) => a.name.localeCompare(b.name, "ru"));
-  let html = '';
-  if (S.fridge.length){
+  let html = reminderBannerHtml();
+  if (S.fridge.length && !html){
     const daysSince = S.fridgeReviewedAt ? Math.floor((Date.now() - S.fridgeReviewedAt) / 86400000) : null;
     if (daysSince == null || daysSince >= REVIEW_EVERY_DAYS){
       html += '<div class="banner"><p><b>Пора проверить холодильник.</b> ' +
@@ -1123,6 +1497,7 @@ function renderFridge(){
     }
   }
   html += '<div class="frow-actions"><button class="btn primary" data-act="add-ing">Добавить продукт</button><button class="btn" data-act="add-dish">Добавить заготовку</button></div>';
+  if (S.fridge.length && S.recipes.length) html += '<button class="btn wide auto" data-act="cook">Что приготовить из того, что есть</button>';
   if (!S.fridge.length){
     el.innerHTML = html + '<div class="empty"><p>Здесь хранится то, что уже есть дома: продукты и готовые блюда или заготовки. Продукты вычитаются из списка покупок, а заготовки сначала идут в автоподбор меню.</p><p>Купленное можно переложить сюда одной кнопкой из раздела «Покупки».</p></div>';
     return;
@@ -1142,11 +1517,13 @@ function renderFridge(){
   el.innerHTML = html;
 }
 $("fridge").addEventListener("click", e => {
+  const rem = e.target.closest("[data-rem]"); if (rem) return onReminder(rem);
   const b = e.target.closest("[data-act]");
   if (b){
     if (b.dataset.act === "add-ing") openFridgeItem(null, "ing");
     if (b.dataset.act === "add-dish") openFridgeItem(null, "dish");
     if (b.dataset.act === "review") openReview();
+    if (b.dataset.act === "cook") openCookable();
     return;
   }
   const row = e.target.closest("[data-fid]");
@@ -1240,6 +1617,161 @@ function openReview(){
   });
 }
 
+/* ---------- what can be cooked from the fridge ---------- */
+function analyzeRecipe(r){
+  const missing = [], short = [];
+  let present = 0, counted = 0;
+  r.ingredients.forEach(i => {
+    if (i.unit === "по вкусу") return; // соль, специи и т. п. не учитываем
+    counted++;
+    const items = S.fridge.filter(f => f.kind === "ing" && norm(f.name) === norm(i.name));
+    if (!items.length){ missing.push(i.name); return; }
+    present++;
+    if (i.qty == null) return;
+    const [bu, k] = baseUnit(i.unit);
+    const same = items.filter(f => baseUnit(f.unit)[0] === bu);
+    if (!same.length || same.some(f => f.qty == null)) return; // единицы разные или количество не важно — считаем, что хватает
+    const have = same.reduce((s, f) => s + f.qty * baseUnit(f.unit)[1], 0);
+    const need = i.qty * k;
+    if (have + 0.0001 < need) short.push(i.name + ": нужно " + showQty(need, bu) + ", есть " + showQty(have, bu));
+  });
+  return { missing, short, present, counted };
+}
+function openCookable(){
+  const today = todayStr();
+  const ready = S.fridge.filter(f => f.kind === "dish");
+  const rows = S.recipes.map(r => ({ r, a: analyzeRecipe(r) })).filter(x => x.a.counted);
+  const full = rows.filter(x => !x.a.missing.length && !x.a.short.length).sort((a,b) => a.r.name.localeCompare(b.r.name, "ru"));
+  const almost = rows.filter(x => {
+    const gaps = x.a.missing.length + x.a.short.length;
+    return gaps > 0 && gaps <= 2 && x.a.present >= Math.ceil(x.a.counted / 2);
+  }).sort((a,b) => (a.a.missing.length + a.a.short.length) - (b.a.missing.length + b.a.short.length) || a.r.name.localeCompare(b.r.name, "ru"));
+  const addBtn = r => SLOTS.includes(r.type) ? '<button class="mini" data-cook="' + r.id + '">В план на сегодня</button>' : '<span class="muted" style="font-size:.8rem">' + TYPE_L[r.type].toLowerCase() + '</span>';
+  const card = (x, note) => '<div class="ck"><div class="ckt"><b>' + esc(x.r.name) + '</b><span class="muted">' + TYPE_L[x.r.type] + (x.r.time ? ' · ' + fmtTime(x.r.time) : '') + ' · ' + x.r.servings + ' ' + pl(x.r.servings,"порция","порции","порций") + '</span>' + (note || '') + '</div>' + addBtn(x.r) + '</div>';
+  let body = '';
+  if (ready.length){
+    body += '<h3 class="sh2" style="margin-top:4px">Уже готово</h3><div class="flist">' + ready.map(f => {
+      const r = recipeById(f.recipeId);
+      return '<div class="ck"><div class="ckt"><b>' + esc(dishName(f)) + '</b><span class="muted">' + (f.qty ? fmt(f.qty) + ' ' + pl(Math.round(f.qty),"порция","порции","порций") : 'есть') + '</span></div>' +
+        (r && SLOTS.includes(r.type) ? '<button class="mini" data-cookready="' + r.id + '">В план на сегодня</button>' : '') + '</div>';
+    }).join("") + '</div>';
+  }
+  body += '<h3 class="sh2">Можно приготовить сейчас</h3>' + (full.length
+    ? '<div class="flist">' + full.map(x => card(x)).join("") + '</div>'
+    : '<p class="muted" style="margin:0 2px">Ни для одного рецепта не хватает всех продуктов.</p>');
+  if (almost.length){
+    body += '<h3 class="sh2">Не хватает одного-двух продуктов</h3><div class="flist">' + almost.map(x =>
+      card(x, '<span class="ckm">' + esc(x.a.missing.map(n => "нет: " + n).concat(x.a.short).join("; ")) + '</span>')).join("") + '</div>';
+  }
+  body += '<p class="note">Учитываются продукты из холодильника и количества, где они указаны. Ингредиенты «по вкусу» не учитываются. Если продукт записан в других единицах, чем в рецепте, планер считает, что его хватает. Проверьте сами.</p>';
+  const s = openSheet("Что приготовить", body, "");
+  s.el.addEventListener("click", e => {
+    const b = e.target.closest("[data-cook],[data-cookready]"); if (!b) return;
+    const id = b.dataset.cook || b.dataset.cookready;
+    const r = recipeById(id); if (!r) return;
+    addToPlan(today, r.type, id, !!b.dataset.cookready);
+    UI.weekStart = mondayOf(today); UI.day = dayIdx(today);
+    s.close(); commit(); toast("«" + r.name + "» в плане на сегодня");
+  });
+}
+
+/* ---------- settings & reminders ---------- */
+function nextReminder(){
+  const [h, m] = S.settings.remTime.split(":").map(Number);
+  const now = new Date();
+  let date = addDays(mondayOf(todayStr()), S.settings.remDay);
+  const at = parseD(date); at.setHours(h, m, 0, 0);
+  if (at.getTime() <= now.getTime()) date = addDays(date, 7);
+  return { date, h, m };
+}
+function buildIcs(){
+  const { date, h, m } = nextReminder();
+  const pad = n => String(n).padStart(2, "0");
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+  const start = date.replace(/-/g, "") + "T" + pad(h) + pad(m) + "00";
+  const link = location.origin + location.pathname;
+  const text = "Проверьте холодильник и запланируйте меню на следующую неделю".replace(/[,;]/g, m => "\\" + m);
+  return [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Menu Planner//RU", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:menu-planner-weekly-" + Date.now() + "@menu-planner",
+    "DTSTAMP:" + stamp,
+    "DTSTART:" + start,
+    "DURATION:PT15M",
+    "RRULE:FREQ=WEEKLY;BYDAY=" + ICS_DAYS[S.settings.remDay],
+    "SUMMARY:Меню на неделю: холодильник и план",
+    "DESCRIPTION:" + text + "\\n" + link,
+    "URL:" + link,
+    "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + text, "TRIGGER:PT0M", "END:VALARM",
+    "END:VEVENT", "END:VCALENDAR"
+  ].map(foldIcs).join("\r\n") + "\r\n";
+}
+// строки календаря длиннее 75 байт переносятся по RFC 5545, не разрывая символы
+function foldIcs(line){
+  const enc = new TextEncoder();
+  let out = "", cur = "", len = 0;
+  for (const ch of line){
+    const n = enc.encode(ch).length;
+    if (len + n > 73){ out += cur + "\r\n "; cur = ""; len = 1; }
+    cur += ch; len += n;
+  }
+  return out + cur;
+}
+function icsFile(){ return new File([buildIcs()], "napominanie-menu.ics", { type:"text/calendar" }); }
+function downloadIcs(){
+  try {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(icsFile());
+    a.download = "napominanie-menu.ics";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  } catch(e){ toast("Не получилось создать файл напоминания"); }
+}
+async function shareIcs(){
+  try { await navigator.share({ files:[icsFile()], title:"Напоминание о меню" }); }
+  catch(e){ if (!e || e.name !== "AbortError") downloadIcs(); }
+}
+function openSettings(){
+  let canShare = false;
+  try { canShare = !!(navigator.canShare && navigator.canShare({ files:[ icsFile() ] })); } catch(e){}
+  const st = S.settings;
+  const body =
+    '<div class="field"><span>Сколько человек обычно едят</span><div class="num">' +
+      '<button type="button" data-pp="-1" aria-label="Меньше">−</button><input id="s-people" inputmode="numeric" value="' + st.people + '" aria-label="Человек"><button type="button" data-pp="1" aria-label="Больше">+</button>' +
+    '</div><p class="muted" style="font-size:.84rem;margin:6px 0 0">Используется в автоподборе меню.</p></div>' +
+    '<div class="field"><span>Еженедельное напоминание</span>' +
+      '<div class="prow2"><select class="inp" id="s-day">' + DAYS.map((d, i) => '<option value="' + i + '"' + (st.remDay === i ? ' selected' : '') + '>' + d + '</option>').join("") + '</select>' +
+      '<input class="inp" type="time" id="s-time" value="' + st.remTime + '"></div>' +
+      '<p class="muted" style="font-size:.84rem;margin:6px 0 0">В это время в планере появится напоминание проверить холодильник и спланировать следующую неделю.</p></div>' +
+    '<div class="field"><span>Уведомление на телефоне</span>' +
+      '<p style="margin:0 0 10px;font-size:.92rem">Веб-приложение не может само присылать уведомления по расписанию без сервера. Поэтому напоминание добавляется в календарь телефона как повторяющееся событие ' + esc(DAYS_EVERY[st.remDay]) + ' в ' + esc(st.remTime) + ', и уведомление присылает уже календарь.</p>' +
+      '<button class="btn primary wide" data-ics="get">Добавить напоминание в календарь</button>' +
+      (canShare ? '<button class="btn wide" data-ics="share" style="margin-top:8px">Отправить файл напоминания</button>' : '') +
+      '<p class="muted" style="font-size:.84rem;margin:8px 0 0">Если календарь не открылся сам, отправьте файл себе, например в «Избранное» Telegram, и откройте его оттуда. Если поменяете день или время, удалите старое событие в календаре и добавьте новое.</p></div>';
+  const s = openSheet("Настройки", body, "");
+  const el = s.el;
+  const ppl = el.querySelector("#s-people");
+  const save = () => {
+    st.people = Math.min(20, Math.max(1, parseInt(ppl.value, 10) || 1)); ppl.value = st.people;
+    st.remDay = Number(el.querySelector("#s-day").value);
+    const t = el.querySelector("#s-time").value;
+    if (/^\d{2}:\d{2}$/.test(t)) st.remTime = t;
+    st.remDismissed = null;
+    commit();
+  };
+  el.querySelectorAll("[data-pp]").forEach(b => b.addEventListener("click", () => {
+    ppl.value = Math.min(20, Math.max(1, (parseInt(ppl.value, 10) || 1) + Number(b.dataset.pp))); save();
+  }));
+  ppl.addEventListener("change", save);
+  el.querySelector("#s-day").addEventListener("change", () => { save(); s.close(); openSettings(); });
+  el.querySelector("#s-time").addEventListener("change", () => { save(); s.close(); openSettings(); });
+  el.addEventListener("click", e => {
+    const b = e.target.closest("[data-ics]"); if (!b) return;
+    if (b.dataset.ics === "get") downloadIcs(); else shareIcs();
+  });
+}
+$("settings").addEventListener("click", openSettings);
+
 /* ---------- exchange: file with recipes, merge on import ---------- */
 function parsePayload(text){
   try {
@@ -1254,7 +1786,7 @@ function extractFromHtml(html){
 }
 function exportName(){ return "recepty-" + todayStr() + ".json"; }
 function exportBlob(){
-  return new Blob([JSON.stringify({ app:"menu-planner", version:5, savedAt:new Date().toISOString(), data:S })], { type:"application/json" });
+  return new Blob([JSON.stringify({ app:"menu-planner", version:6, savedAt:new Date().toISOString(), data:S })], { type:"application/json" });
 }
 function downloadExport(){
   try {
