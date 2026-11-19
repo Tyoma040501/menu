@@ -1,5 +1,5 @@
 // Офлайн-работа планера. При изменении файлов приложения увеличьте номер версии.
-const VERSION = "menu-planner-v3";
+const VERSION = "menu-planner-v5";
 const ASSETS = [
   "./",
   "./index.html",

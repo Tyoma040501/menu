@@ -281,6 +281,15 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
 .ck .mini{border:1px solid var(--line);flex:none}
 .banner-actions{display:flex;gap:8px;flex-wrap:wrap}
 .banner-actions .btn{flex:1}
+
+/* v4: заготовки */
+.segtabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--soft);border-radius:12px;padding:4px;margin-bottom:14px}
+.segtabs button{border:0;background:none;border-radius:9px;padding:9px 6px;font-weight:500;color:var(--muted);min-height:40px}
+.segtabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.prepi{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;padding:10px 12px;border-top:1px solid var(--line)}
+.prepi:first-child{border-top:0}
+.prepi .stepper{grid-column:1 / -1}
+.prepdone{grid-column:1 / -1;border:1px solid color-mix(in srgb,var(--t-salad) 45%,var(--line))!important;color:var(--t-salad)!important;background:color-mix(in srgb,var(--t-salad) 8%,var(--surface))!important}
 </style>
 </head>
 <body>
@@ -451,7 +460,7 @@ function fmtTime(min){
   return h ? h + " ч" + (m ? " " + m + " мин" : "") : m + " мин";
 }
 function emptyState(){
-  return { recipes:[], plan:[], events:[], bought:{}, deleted:[], fridge:[],
+  return { recipes:[], plan:[], events:[], bought:{}, deleted:[], fridge:[], prep:{ items:[], bought:[], useFridge:false },
     settings:{ people:1, weekdayMax:0, remDay:6, remTime:"12:00", remDismissed:null },
     fridgeReviewedAt:0, updatedAt:0 };
 }
@@ -518,6 +527,12 @@ function normalize(d){
     s.settings.remTime = typeof st.remTime === "string" && /^\d{2}:\d{2}$/.test(st.remTime) ? st.remTime : "12:00";
     s.settings.remDismissed = typeof st.remDismissed === "string" ? st.remDismissed : null;
   }
+  if (d.prep && typeof d.prep === "object"){
+    if (Array.isArray(d.prep.items)) s.prep.items = d.prep.items.filter(x => x && x.recipeId).map(x => ({ id:String(x.id || uid()), recipeId:String(x.recipeId), portions: Math.max(1, parseInt(x.portions, 10) || 1) }));
+    if (Array.isArray(d.prep.bought)) s.prep.bought = d.prep.bought.map(String);
+    s.prep.useFridge = !!d.prep.useFridge;
+  }
+  s.starterLoaded = !!d.starterLoaded;
   s.fridgeReviewedAt = Number(d.fridgeReviewedAt) || 0;
   s.updatedAt = Number(d.updatedAt) || 0;
   return s;
@@ -547,7 +562,7 @@ async function saveNow(){
   if (saveAgain){ saveAgain = false; saveNow(); }
 }
 
-const UI = { view:"week", weekStart: mondayOf(todayStr()), day: dayIdx(todayStr()), filter:"all", q:"", open:{}, scale:{} };
+const UI = { view:"week", weekStart: mondayOf(todayStr()), day: dayIdx(todayStr()), filter:"all", q:"", open:{}, scale:{}, fridgeTab:"stock" };
 function commit(){ S.updatedAt = Date.now(); scheduleSave(); render(); }
 
 function recipeById(id){ return id ? S.recipes.find(r => r.id === id) : null; }
@@ -729,6 +744,7 @@ function dropRecipeRefs(ids){
     p.extras = (p.extras || []).filter(x => !(x.kind === "recipe" && ids.has(x.recipeId)));
   });
   S.events.forEach(e => { e.dishes = e.dishes.filter(x => !ids.has(x.recipeId)); });
+  S.prep.items = S.prep.items.filter(x => !ids.has(x.recipeId));
   S.fridge.forEach(f => { if (f.recipeId && ids.has(f.recipeId)) f.recipeId = null; });
 }
 function deleteRecipe(id){
@@ -1338,7 +1354,8 @@ function openAutoPlan(){
 }
 
 /* ---------- shopping ---------- */
-function aggregate(ws){
+// общий сборщик списка: fill добавляет рецепты и продукты, затем по желанию вычитается холодильник
+function buildList(fill, useFridge){
   const need = new Map();
   const addIng = (name, qty, unit, label) => {
     const [bu, k] = baseUnit(unit);
@@ -1353,20 +1370,8 @@ function aggregate(ws){
     const f = (portions || r.servings) / r.servings;
     r.ingredients.forEach(i => { if (i.name) addIng(i.name, i.qty == null ? null : i.qty * f, i.unit, label || r.name); });
   };
-  validPlan().filter(p => inWeek(p.date, ws) && !isOut(p)).forEach(p => {
-    const main = recipeById(p.recipeId), por = portionsOf(p);
-    if (!p.fromFridge) addRecipe(main, por);
-    const side = recipeById(p.sideId);
-    if (side && !fridgeDish(side.id)) addRecipe(side, por);
-    (p.extras || []).forEach(x => {
-      if (x.kind === "recipe"){ const sc = recipeById(x.recipeId); if (sc && !fridgeDish(sc.id)) addRecipe(sc, por, sc.name + " к блюду «" + main.name + "»"); }
-      else addIng(x.name, x.qty, x.unit, "добавка к блюду «" + main.name + "»");
-    });
-  });
-  S.events.filter(e => inWeek(e.date, ws)).forEach(e => e.dishes.forEach(x => {
-    const r = recipeById(x.recipeId);
-    if (r) addRecipe(r, x.portions, r.name + " (" + e.title.toLowerCase() + ", " + fmtDate(e.date) + ")");
-  }));
+  fill(addRecipe, addIng);
+  if (!useFridge) return { toBuy:[...need.values()].map(it => ({ ...it, note:"" })), covered:[] };
   // что уже есть в холодильнике
   const have = new Map(), haveByName = new Map();
   S.fridge.filter(f => f.kind === "ing").forEach(f => {
@@ -1394,6 +1399,24 @@ function aggregate(ws){
     toBuy.push({ ...it, note: haveByName.has(it.nkey) ? "дома есть " + haveByName.get(it.nkey).join(", ") : "" });
   });
   return { toBuy, covered };
+}
+function aggregate(ws){
+  return buildList((addRecipe, addIng) => {
+    validPlan().filter(p => inWeek(p.date, ws) && !isOut(p)).forEach(p => {
+      const main = recipeById(p.recipeId), por = portionsOf(p);
+      if (!p.fromFridge) addRecipe(main, por);
+      const side = recipeById(p.sideId);
+      if (side && !fridgeDish(side.id)) addRecipe(side, por);
+      (p.extras || []).forEach(x => {
+        if (x.kind === "recipe"){ const sc = recipeById(x.recipeId); if (sc && !fridgeDish(sc.id)) addRecipe(sc, por, sc.name + " к блюду «" + main.name + "»"); }
+        else addIng(x.name, x.qty, x.unit, "добавка к блюду «" + main.name + "»");
+      });
+    });
+    S.events.filter(e => inWeek(e.date, ws)).forEach(e => e.dishes.forEach(x => {
+      const r = recipeById(x.recipeId);
+      if (r) addRecipe(r, x.portions, r.name + " (" + e.title.toLowerCase() + ", " + fmtDate(e.date) + ")");
+    }));
+  }, true);
 }
 function renderShop(){
   const el = $("shop");
@@ -1482,12 +1505,20 @@ async function copyList(){
 }
 
 /* ---------- fridge ---------- */
+function fridgeTabsHtml(){
+  const n = S.prep.items.filter(x => recipeById(x.recipeId)).length;
+  return '<div class="segtabs" role="tablist">' +
+    '<button role="tab" data-ftab="stock" aria-selected="' + (UI.fridgeTab === "stock") + '">Что есть дома</button>' +
+    '<button role="tab" data-ftab="prep" aria-selected="' + (UI.fridgeTab === "prep") + '">Заготовки' + (n ? ' · ' + n : '') + '</button></div>';
+}
 function renderFridge(){
+  if (UI.fridgeTab === "prep") return renderPrep();
   const el = $("fridge");
   const dishes = S.fridge.filter(f => f.kind === "dish").sort((a,b) => dishName(a).localeCompare(dishName(b), "ru"));
   const ings = S.fridge.filter(f => f.kind === "ing").sort((a,b) => a.name.localeCompare(b.name, "ru"));
-  let html = reminderBannerHtml();
-  if (S.fridge.length && !html){
+  const banner = reminderBannerHtml();
+  let html = banner + fridgeTabsHtml();
+  if (S.fridge.length && !banner){
     const daysSince = S.fridgeReviewedAt ? Math.floor((Date.now() - S.fridgeReviewedAt) / 86400000) : null;
     if (daysSince == null || daysSince >= REVIEW_EVERY_DAYS){
       html += '<div class="banner"><p><b>Пора проверить холодильник.</b> ' +
@@ -1518,6 +1549,8 @@ function renderFridge(){
 }
 $("fridge").addEventListener("click", e => {
   const rem = e.target.closest("[data-rem]"); if (rem) return onReminder(rem);
+  const tab = e.target.closest("[data-ftab]"); if (tab){ UI.fridgeTab = tab.dataset.ftab; renderFridge(); return; }
+  if (UI.fridgeTab === "prep") return onPrepClick(e);
   const b = e.target.closest("[data-act]");
   if (b){
     if (b.dataset.act === "add-ing") openFridgeItem(null, "ing");
@@ -1615,6 +1648,139 @@ function openReview(){
     s.close(); commit();
     toast("Холодильник проверен" + (removed ? ", убрано " + removed : ""));
   });
+}
+
+
+/* ---------- batch cooking (заготовки впрок) with its own shopping list ---------- */
+function prepItems(){ return S.prep.items.filter(x => recipeById(x.recipeId)); }
+function prepList(){
+  return buildList((addRecipe) => {
+    prepItems().forEach(x => { const r = recipeById(x.recipeId); addRecipe(r, x.portions, r.name); });
+  }, S.prep.useFridge);
+}
+function renderPrep(){
+  const el = $("fridge");
+  const items = prepItems();
+  let html = reminderBannerHtml() + fridgeTabsHtml();
+  html += '<p class="muted" style="font-size:.88rem;margin:0 2px 12px">Выберите рецепты и число порций — здесь соберётся отдельный список продуктов только для заготовок. Основной список покупок на неделю он не меняет.</p>';
+  html += '<button class="btn primary wide" data-pp="add">Добавить рецепт в заготовки</button>';
+  if (!items.length){
+    el.innerHTML = html + '<div class="empty"><p>Когда заготовка будет готова, нажмите «Приготовлено»: она появится в холодильнике среди готовых блюд, и автоподбор поставит её в меню в первую очередь.</p></div>';
+    return;
+  }
+  const time = items.reduce((t, x) => t + (recipeById(x.recipeId).time || 0), 0);
+  html += '<section class="fsec"><h3>Что готовим' + (time ? ' · ≈ ' + fmtTime(time) : '') + '</h3><div class="flist">' + items.map(x => {
+    const r = recipeById(x.recipeId);
+    return '<div class="prepi" data-pi="' + x.id + '">' +
+      '<div class="ckt"><b>' + esc(r.name) + '</b><span class="muted">' + TYPE_L[r.type] + (r.time ? ' · ' + fmtTime(r.time) : '') + ' · по рецепту ' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + '</span></div>' +
+      '<button class="rm" data-pa="rm" aria-label="Убрать из заготовок">×</button>' +
+      stepperHtml("Порций", x.portions, pl(x.portions,"порция","порции","порций"), "pdec", "pinc", 1, 200).replace(/data-act=/g, 'data-pa=') +
+      '<button class="mini prepdone" data-pa="done">Приготовлено — в холодильник</button></div>';
+  }).join("") + '</div></section>';
+
+  const { toBuy, covered } = prepList();
+  const bought = new Set(S.prep.bought);
+  toBuy.sort((a,b) => (bought.has(a.key) - bought.has(b.key)) || a.name.localeCompare(b.name, "ru"));
+  const done = toBuy.filter(i => bought.has(i.key)).length;
+  html += '<section class="fsec"><h3>Продукты для заготовок' + (toBuy.length ? ' · ' + toBuy.length + ' ' + pl(toBuy.length,"позиция","позиции","позиций") + (done ? ', куплено ' + done : '') : '') + '</h3>' +
+    '<label class="check" style="margin:0 2px 10px"><input type="checkbox" data-pfridge' + (S.prep.useFridge ? ' checked' : '') + '> Вычесть то, что уже есть в холодильнике</label>';
+  if (toBuy.length){
+    html += '<div class="slist">' + toBuy.map(i =>
+      '<label class="item' + (bought.has(i.key) ? " done" : "") + '">' +
+        '<input type="checkbox" data-pkey="' + esc(i.key) + '"' + (bought.has(i.key) ? " checked" : "") + '>' +
+        '<span class="iname">' + esc(i.name) + '</span><span class="iqty">' + esc(showQty(i.qty, i.unit)) + '</span>' +
+        (i.note ? '<span class="inote">' + esc(i.note) + '</span>' : '') +
+        '<small>' + esc(i.from.join(", ")) + '</small></label>').join("") + '</div>' +
+      '<div class="shopactions"><button class="btn primary" data-pp="copy">Скопировать список</button>' + (done ? '<button class="btn" data-pp="reset">Снять отметки</button>' : '') + '</div>';
+  } else {
+    html += '<div class="empty" style="padding:16px"><p>Всё нужное для заготовок уже есть дома.</p></div>';
+  }
+  if (covered.length){
+    covered.sort((a,b) => a.name.localeCompare(b.name, "ru"));
+    html += '<h3 class="sh2">Уже есть дома</h3><div class="slist">' + covered.map(i =>
+      '<div class="haverow"><span>' + esc(i.name) + '</span><span>' + (i.needStr ? 'нужно ' + esc(i.needStr) + ', ' : '') + 'дома ' + esc(i.haveStr) + '</span></div>').join("") + '</div>';
+  }
+  html += '</section>';
+  html += '<p class="note">' + (S.prep.useFridge
+    ? 'Продукты из холодильника вычитаются и здесь, и в основном списке покупок. Если те же продукты нужны и для меню недели, лучше выключить вычитание, чтобы не купить меньше нужного.'
+    : 'Список полный, без учёта холодильника: так продукты для заготовок не пересекаются с тем, что отложено под меню недели.') + '</p>' +
+    '<button class="link" data-pp="clear">Очистить заготовки</button>';
+  el.innerHTML = html;
+}
+function onPrepClick(e){
+  const b = e.target.closest("[data-pp]");
+  if (b){
+    const a = b.dataset.pp;
+    if (a === "add") return openPrepPicker();
+    if (a === "copy") return copyPrepList();
+    if (a === "reset"){ S.prep.bought = []; commit(); return; }
+    if (a === "clear") return askConfirm("Убрать все заготовки и их список продуктов? Рецепты и холодильник не изменятся.", "Очистить", () => {
+      S.prep.items = []; S.prep.bought = []; commit(); toast("Заготовки очищены");
+    });
+    return;
+  }
+  const pa = e.target.closest("[data-pa]"); if (!pa) return;
+  const x = S.prep.items.find(i => i.id === pa.closest("[data-pi]").dataset.pi); if (!x) return;
+  const act = pa.dataset.pa;
+  if (act === "rm") S.prep.items = S.prep.items.filter(i => i !== x);
+  if (act === "pinc") x.portions = Math.min(200, x.portions + 1);
+  if (act === "pdec") x.portions = Math.max(1, x.portions - 1);
+  if (act === "done"){
+    const r = recipeById(x.recipeId);
+    const ex = fridgeDish(r.id);
+    if (ex){ if (ex.qty != null) ex.qty += x.portions; }
+    else S.fridge.push({ id: uid(), kind:"dish", name: r.name, qty: x.portions, unit:"порц.", recipeId: r.id });
+    S.prep.items = S.prep.items.filter(i => i !== x);
+    if (!S.prep.items.length) S.prep.bought = [];
+    commit(); toast("«" + r.name + "» в холодильнике: " + x.portions + " " + pl(x.portions,"порция","порции","порций"));
+    return;
+  }
+  commit();
+}
+$("fridge").addEventListener("change", e => {
+  if (UI.fridgeTab !== "prep") return;
+  if (e.target.matches("[data-pfridge]")){ S.prep.useFridge = e.target.checked; commit(); return; }
+  const c = e.target.closest("[data-pkey]"); if (!c) return;
+  S.prep.bought = S.prep.bought.filter(k => k !== c.dataset.pkey);
+  if (c.checked) S.prep.bought.push(c.dataset.pkey);
+  commit();
+});
+function openPrepPicker(){
+  const order = Object.fromEntries(TYPES.map((t, i) => [t.k, i]));
+  const all = S.recipes.slice().sort((a,b) => order[a.type] - order[b.type] || a.name.localeCompare(b.name, "ru"));
+  const listHtml = q => {
+    const f = all.filter(r => !q || norm(r.name).includes(norm(q)));
+    if (!f.length) return '<p class="muted" style="margin:4px 0">Ничего не нашлось.</p>';
+    return '<div class="pick">' + f.map(r => pickRow(r, '<br><span class="muted" style="font-size:.8rem">' + TYPE_L[r.type] + (S.prep.items.some(x => x.recipeId === r.id) ? ' · уже в заготовках' : '') + '</span>')).join("") + '</div>';
+  };
+  const body = all.length
+    ? '<input class="search" type="search" id="pp-q" placeholder="Найти рецепт" autocomplete="off" style="margin-bottom:10px"><div id="pp-list">' + listHtml("") + '</div>'
+    : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет рецептов.</p>';
+  const s = openSheet("Рецепт для заготовки", body, '<button class="btn wide" data-new>Новый рецепт</button>');
+  const q = s.el.querySelector("#pp-q");
+  if (q) q.addEventListener("input", () => { s.el.querySelector("#pp-list").innerHTML = listHtml(q.value); });
+  const add = r => {
+    if (S.prep.items.some(x => x.recipeId === r.id)){ toast("«" + r.name + "» уже в заготовках — поменяйте там число порций"); return false; }
+    S.prep.items.push({ id: uid(), recipeId: r.id, portions: r.servings });
+    return true;
+  };
+  s.el.addEventListener("click", e => {
+    const b = e.target.closest("[data-r]");
+    if (b){ const r = recipeById(b.dataset.r); if (r && add(r)){ s.close(); commit(); } return; }
+    if (e.target.closest("[data-new]")){ s.close(); openRecipeEditor(null, null, rec => { add(rec); }); }
+  });
+}
+async function copyPrepList(){
+  const bought = new Set(S.prep.bought);
+  const items = prepList().toBuy.filter(i => !bought.has(i.key)).sort((a,b) => a.name.localeCompare(b.name, "ru"));
+  if (!items.length){ toast("Всё уже куплено"); return; }
+  const names = prepItems().map(x => recipeById(x.recipeId).name).join(", ");
+  const text = "Продукты для заготовок (" + names + ")\n" + items.map(i => "— " + i.name + (showQty(i.qty, i.unit) ? ": " + showQty(i.qty, i.unit) : "")).join("\n");
+  try { await navigator.clipboard.writeText(text); toast("Список скопирован"); }
+  catch(e){
+    const sh = openSheet("Продукты для заготовок", '<p class="muted" style="margin:0 0 8px">Выделите текст и скопируйте его.</p><textarea class="copybox" readonly>' + esc(text) + '</textarea>', "");
+    const ta = sh.el.querySelector("textarea"); ta.focus(); ta.select();
+  }
 }
 
 /* ---------- what can be cooked from the fridge ---------- */
@@ -1876,6 +2042,7 @@ $("exchange").addEventListener("click", () => {
     (share ? '<button class="btn primary wide" data-x="share">Отправить файл с рецептами</button><button class="btn wide" data-x="save">Сохранить файл на телефон</button>'
            : '<button class="btn primary wide" data-x="save">Сохранить файл с рецептами</button>') +
     '<button class="btn wide" data-x="load">Загрузить рецепты из файла</button>' +
+    '<button class="btn wide" data-x="starter">Добавить стартовые рецепты</button>' +
     '<input type="file" id="x-file" accept=".json,.html,.htm,application/json,text/html" hidden></div>';
   const s = openSheet("Обмен рецептами", body, "");
   const inp = s.el.querySelector("#x-file");
@@ -1884,6 +2051,12 @@ $("exchange").addEventListener("click", () => {
     if (b.dataset.x === "share") shareExport();
     if (b.dataset.x === "save") downloadExport();
     if (b.dataset.x === "load") inp.click();
+    if (b.dataset.x === "starter"){
+      loadStarter().then(got => {
+        if (!got){ toast("Не получилось загрузить стартовые рецепты. Нужен интернет"); return; }
+        s.close(); offerImport(got);
+      });
+    }
   });
   inp.addEventListener("change", () => {
     const f = inp.files && inp.files[0]; inp.value = "";
@@ -1901,6 +2074,27 @@ $("exchange").addEventListener("click", () => {
   });
 });
 
+/* ---------- starter recipes ---------- */
+async function loadStarter(){
+  try {
+    const res = await fetch("starter-recipes.json", { cache:"no-cache" });
+    if (!res.ok) return null;
+    return parsePayload(await res.text());
+  } catch(e){ return null; }
+}
+async function seedOnFirstRun(){
+  // только для совсем нового планера: если рецепты уже были или их удалили, ничего не добавляем
+  if (S.starterLoaded || S.recipes.length || S.deleted.length) return;
+  const got = await loadStarter();
+  if (!got || !got.data.recipes.length) return;
+  if (S.recipes.length) return; // пока грузилось, пользователь мог начать сам
+  const m = computeMerge(got.data);
+  S.recipes = m.recipes;
+  S.starterLoaded = true;
+  commit();
+  toast("Добавлено " + m.added + " " + pl(m.added,"рецепт","рецепта","рецептов") + " для начала");
+}
+
 /* ---------- start ---------- */
 let lastToday = todayStr();
 document.addEventListener("visibilitychange", () => {
@@ -1917,6 +2111,7 @@ document.addEventListener("visibilitychange", () => {
   const startView = location.hash.slice(1);
   UI.view = VIEWS.includes(startView) ? startView : (S.recipes.length ? "week" : "recipes");
   render();
+  seedOnFirstRun();
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
   if ("serviceWorker" in navigator && location.protocol !== "file:"){
     try { await navigator.serviceWorker.register("sw.js"); } catch(e){}
