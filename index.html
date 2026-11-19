@@ -17,7 +17,7 @@
 :root{
   --bg:#F2F4F1; --surface:#FFFFFF; --soft:#E8ECE7; --ink:#1E2621; --muted:#626C66; --line:#D9DFDA;
   --accent:#8C2D4B; --accent-ink:#FFFFFF;
-  --t-breakfast:#B07F1F; --t-hot:#8C2D4B; --t-salad:#4A7636; --t-dessert:#6A5193;
+  --t-breakfast:#B07F1F; --t-hot:#8C2D4B; --t-salad:#4A7636; --t-dessert:#6A5193; --t-side:#2F6E7A;
   --danger:#B3261E;
   --shadow:0 1px 2px rgba(20,30,25,.06), 0 4px 16px rgba(20,30,25,.06);
   --body:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -30,14 +30,14 @@
   :root:not([data-theme="light"]){
     --bg:#141816; --surface:#1D2320; --soft:#262D29; --ink:#E8EDE9; --muted:#9CA6A0; --line:#2F3733;
     --accent:#E58AA6; --accent-ink:#22101A;
-    --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE;
+    --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE; --t-side:#7CC3CF;
     --danger:#F2867E; --shadow:none; color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#141816; --surface:#1D2320; --soft:#262D29; --ink:#E8EDE9; --muted:#9CA6A0; --line:#2F3733;
   --accent:#E58AA6; --accent-ink:#22101A;
-  --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE;
+  --t-breakfast:#E2B55C; --t-hot:#E58AA6; --t-salad:#93C47A; --t-dessert:#B7A0DE; --t-side:#7CC3CF;
   --danger:#F2867E; --shadow:none; color-scheme: dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -57,7 +57,7 @@ main{max-width:720px;margin:0 auto;padding:0 16px calc(92px + env(safe-area-inse
 .view.on{display:block}
 
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);display:flex;justify-content:center}
-.tabs-in{display:grid;grid-template-columns:repeat(3,1fr);width:100%;max-width:720px}
+.tabs-in{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:720px}
 .tab{border:0;background:none;padding:9px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:.78rem;font-weight:500}
 .tab svg{width:24px;height:24px}
 .tab[aria-current="page"]{color:var(--accent)}
@@ -72,7 +72,7 @@ main{max-width:720px;margin:0 auto;padding:0 16px calc(92px + env(safe-area-inse
 .empty{text-align:center;padding:40px 16px;color:var(--muted)}
 .empty p{margin:0 0 16px}
 .tag{display:inline-block;font-size:.74rem;font-weight:600;padding:2px 8px;border-radius:999px;color:var(--tc);background:color-mix(in srgb,var(--tc) 14%,transparent);white-space:nowrap}
-.t-breakfast{--tc:var(--t-breakfast)} .t-hot{--tc:var(--t-hot)} .t-salad{--tc:var(--t-salad)} .t-dessert{--tc:var(--t-dessert)}
+.t-side{--tc:var(--t-side)} .t-breakfast{--tc:var(--t-breakfast)} .t-hot{--tc:var(--t-hot)} .t-salad{--tc:var(--t-salad)} .t-dessert{--tc:var(--t-dessert)}
 
 .tools{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
 .search{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 14px;font-size:16px}
@@ -98,7 +98,7 @@ main{max-width:720px;margin:0 auto;padding:0 16px calc(92px + env(safe-area-inse
 .ractions{display:flex;gap:8px;padding-top:12px}
 .ractions .btn{flex:1}
 
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:14px}
 .day{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:7px}
 .day .dn{font-weight:700;font-size:.95rem}
 .day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
@@ -157,7 +157,7 @@ main{max-width:720px;margin:0 auto;padding:0 16px calc(92px + env(safe-area-inse
 .field > span{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px}
 .inp{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;font-size:16px;min-height:44px}
 textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
-.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .seg button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 2px;font-size:.86rem;font-weight:500}
 .seg button[aria-pressed="true"]{background:var(--tc);border-color:var(--tc);color:var(--surface)}
 .num{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden}
@@ -184,6 +184,61 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
 
 .toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:.9rem;z-index:30;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
 .toast.on{opacity:1}
+
+/* week navigation & dates */
+.wnav{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.wnav .arrow{border:1px solid var(--line);background:var(--surface);border-radius:12px;width:44px;height:44px;font-size:1.3rem;line-height:1;flex:none}
+.wlabel{flex:1;text-align:center;display:flex;flex-direction:column;line-height:1.25}
+.wlabel b{font-size:1.02rem}
+.wlabel span{font-size:.8rem;color:var(--muted)}
+.wlabel .link{padding:0;font-size:.8rem}
+.day .dd{font-size:.78rem;color:var(--muted);margin-top:-6px}
+.day[aria-pressed="true"] .dd{color:inherit;opacity:.75}
+.day.is-today{border-color:var(--accent);border-width:2px}
+.day.is-past{opacity:.6}
+.auto{margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+/* side dish & ready mark in an entry */
+.sideline{grid-column:1 / -1;display:flex;align-items:center;gap:8px;font-size:.9rem;background:var(--soft);border-radius:10px;padding:6px 6px 6px 10px}
+.sideline .sl{flex:1;min-width:0}
+.sideline .sl i{font-style:normal;color:var(--muted)}
+.sideline.need{background:color-mix(in srgb,var(--t-side) 14%,transparent)}
+.mini{border:0;background:var(--surface);border-radius:8px;padding:6px 10px;font-size:.84rem;font-weight:500;color:var(--accent);min-height:34px}
+.ready{grid-column:1 / -1;display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--muted)}
+.ready input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.badge{font-size:.74rem;font-weight:600;color:var(--t-salad);white-space:nowrap}
+.chkline{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.chkline:last-child{border-bottom:0}
+.chkline input{width:22px;height:22px;accent-color:var(--accent);margin:0}
+.chkline .muted{margin-left:auto;font-size:.84rem}
+.radio{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:.95rem}
+.radio input{width:20px;height:20px;accent-color:var(--accent);margin:2px 0 0}
+.box{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px 12px;margin-bottom:16px}
+/* shopping additions */
+.sh2{font-size:.9rem;font-weight:600;margin:20px 2px 8px;color:var(--muted)}
+.item .inote{grid-column:2 / -1;color:var(--t-salad);font-size:.8rem}
+.haverow{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:.92rem}
+.haverow:first-child{border-top:0}
+.haverow span:last-child{color:var(--muted);text-align:right}
+/* fridge */
+.banner{background:color-mix(in srgb,var(--t-breakfast) 16%,var(--surface));border:1px solid color-mix(in srgb,var(--t-breakfast) 40%,var(--line));border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+.banner p{margin:0;font-size:.92rem}
+.frow-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.fsec{margin-top:18px}
+.fsec h3{font-size:.9rem;font-weight:600;color:var(--muted);margin:0 2px 8px}
+.flist{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.frow{width:100%;border:0;border-top:1px solid var(--line);background:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;text-align:left;min-height:48px}
+.frow:first-child{border-top:0}
+.frow .q{color:var(--muted);white-space:nowrap}
+.rv{display:grid;grid-template-columns:1fr 74px auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.rv:last-child{border-bottom:0}
+.rv .nm{font-weight:500;line-height:1.25}
+.rv .nm small{display:block;color:var(--muted);font-weight:400}
+.rv .inp{padding:8px;min-height:40px;text-align:center}
+.rv .gone{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px;font-size:.84rem;min-height:40px}
+.rv .gone[aria-pressed="true"]{background:var(--danger);border-color:var(--danger);color:var(--surface)}
+.rv.is-gone .nm,.rv.is-gone .inp{opacity:.4;text-decoration:line-through}
+.check{display:flex;align-items:center;gap:10px;font-size:.95rem;margin-top:8px}
+.check input{width:22px;height:22px;accent-color:var(--accent);margin:0}
 </style>
 </head>
 <body>
@@ -199,10 +254,12 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
     <div id="recipe-list" class="rlist"></div>
   </section>
   <section id="v-week" class="view">
+    <div id="week-nav"></div>
     <div id="days" class="days" role="group" aria-label="День недели"></div>
     <div id="day-body"></div>
   </section>
   <section id="v-shop" class="view"><div id="shop"></div></section>
+  <section id="v-fridge" class="view"><div id="fridge"></div></section>
 </main>
 
 <nav class="tabs" aria-label="Разделы">
@@ -219,6 +276,10 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1.6 9.2a2 2 0 0 1-2 1.8H7.6a2 2 0 0 1-2-1.8z"/><path d="M8.5 9 11 4M15.5 9 13 4"/><path d="M10 13v3M14 13v3"/></svg>
       Покупки
     </button>
+    <button class="tab" data-view="fridge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="2.5" width="13" height="19" rx="2.5"/><path d="M5.5 10h13"/><path d="M8.5 5.5v2M8.5 13v3"/></svg>
+      Холодильник
+    </button>
   </div>
 </nav>
 
@@ -230,18 +291,31 @@ textarea.inp{min-height:140px;resize:vertical;line-height:1.5}
 (function(){
 "use strict";
 
+/* ---------- constants ---------- */
 const TYPES = [
-  {k:"breakfast", l:"Завтрак"}, {k:"hot", l:"Горячее"}, {k:"salad", l:"Салат"}, {k:"dessert", l:"Десерт"}
+  {k:"breakfast", l:"Завтрак"},
+  {k:"hot",       l:"Горячее"},
+  {k:"side",      l:"Гарнир"},
+  {k:"salad",     l:"Салат"},
+  {k:"dessert",   l:"Десерт"}
 ];
 const TYPE_L = Object.fromEntries(TYPES.map(t => [t.k, t.l]));
+const SLOTS = ["breakfast", "hot", "salad", "dessert"];
 const DAYS = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"];
 const DAYS_SH = ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
 const DAYS_ACC = ["понедельник","вторник","среду","четверг","пятницу","субботу","воскресенье"];
+const DAYS_IN = ["в понедельник","во вторник","в среду","в четверг","в пятницу","в субботу","в воскресенье"];
+const UNIT_FORMS = { "стакан":["стакан","стакана","стаканов"], "пучок":["пучок","пучка","пучков"], "зубчик":["зубчик","зубчика","зубчиков"], "щепотка":["щепотка","щепотки","щепоток"] };
+const MONTHS = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 const UNITS = ["г","кг","мл","л","шт","ст. л.","ч. л.","стакан","пучок","зубчик","щепотка","по вкусу"];
+const FRIDGE_UNITS = UNITS.filter(u => u !== "по вкусу");
 const LS_KEY = "menu-planner-v1";
-const VIEWS = ["recipes","week","shop"];
-const VIEW_TITLE = {recipes:"Рецепты", week:"Неделя", shop:"Покупки"};
+const VIEWS = ["recipes","week","shop","fridge"];
+const VIEW_TITLE = {recipes:"Рецепты", week:"Неделя", shop:"Покупки", fridge:"Холодильник"};
+const MAX_AUTO_DAYS = 3;
+const REVIEW_EVERY_DAYS = 7;
 
+/* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36);
@@ -255,11 +329,31 @@ function showQty(q, u){
   if (q == null) return "";
   if (u === "г" && q >= 1000) return fmt(q / 1000) + " кг";
   if (u === "мл" && q >= 1000) return fmt(q / 1000) + " л";
+  const f = UNIT_FORMS[u];
+  if (f) return fmt(q) + " " + (Number.isInteger(Math.round(q * 100) / 100) ? pl(Math.round(q), f[0], f[1], f[2]) : f[1]);
   return fmt(q) + " " + u;
 }
 function baseUnit(u){ if (u === "кг") return ["г", 1000]; if (u === "л") return ["мл", 1000]; return [u, 1]; }
 function sizeLabel(bytes){ return bytes > 1048576 ? fmt(bytes / 1048576) + " МБ" : Math.max(1, Math.round(bytes / 1024)) + " КБ"; }
-const todayIdx = (new Date().getDay() + 6) % 7;
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ---------- dates (local calendar) ---------- */
+const YMD = /^\d{4}-\d{2}-\d{2}$/;
+function ymd(d){ return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function parseD(s){ const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d, 12); }
+function addDays(s, n){ const d = parseD(s); d.setDate(d.getDate() + n); return ymd(d); }
+function diffDays(a, b){ return Math.round((parseD(b) - parseD(a)) / 86400000); }
+function mondayOf(s){ const d = parseD(s); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return ymd(d); }
+function todayStr(){ return ymd(new Date()); }
+function dayIdx(s){ return (parseD(s).getDay() + 6) % 7; }
+function fmtDate(s){ const d = parseD(s); return d.getDate() + " " + MONTHS[d.getMonth()]; }
+function weekLabel(ws){
+  const we = addDays(ws, 6), a = parseD(ws), b = parseD(we);
+  return a.getMonth() === b.getMonth() ? a.getDate() + "–" + b.getDate() + " " + MONTHS[b.getMonth()] : fmtDate(ws) + " – " + fmtDate(we);
+}
+function inWeek(date, ws){ const d = diffDays(ws, date); return d >= 0 && d <= 6; }
+function lastDate(p){ return addDays(p.date, Math.max(1, p.days) - 1); }
+function covers(p, date){ return p.date <= date && lastDate(p) >= date; }
 
 /* ---------- storage: IndexedDB, with localStorage as a fallback ---------- */
 const Store = {
@@ -277,8 +371,7 @@ const Store = {
   },
   get(key){
     return new Promise((res, rej) => {
-      const tx = this.db.transaction("kv", "readonly");
-      const q = tx.objectStore("kv").get(key);
+      const q = this.db.transaction("kv", "readonly").objectStore("kv").get(key);
       q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error);
     });
   },
@@ -291,26 +384,48 @@ const Store = {
   }
 };
 
-function emptyState(){ return {recipes:[], plan:[], bought:[], deleted:[], updatedAt:0}; }
+/* ---------- state ---------- */
+function emptyState(){ return { recipes:[], plan:[], bought:{}, deleted:[], fridge:[], settings:{ people:1 }, fridgeReviewedAt:0, updatedAt:0 }; }
 function normalize(d){
   const s = emptyState();
-  if (d && typeof d === "object"){
-    if (Array.isArray(d.recipes)) s.recipes = d.recipes.filter(r => r && r.id && r.name).map(r => ({
-      id:String(r.id), name:String(r.name), type: TYPE_L[r.type] ? r.type : "hot",
-      servings: Math.max(1, parseInt(r.servings, 10) || 1),
-      ingredients: Array.isArray(r.ingredients) ? r.ingredients.filter(i => i && i.name).map(i => ({name:String(i.name), qty: parseQty(i.qty), unit: UNITS.includes(i.unit) ? i.unit : "г"})) : [],
-      steps: typeof r.steps === "string" ? r.steps : "",
-      photo: typeof r.photo === "string" && r.photo.startsWith("data:image/") ? r.photo : null,
-      updatedAt: Number(r.updatedAt) || 0
-    }));
-    if (Array.isArray(d.plan)) s.plan = d.plan.filter(p => p && p.recipeId != null).map(p => ({
-      id:String(p.id || uid()), day: Math.min(6, Math.max(0, parseInt(p.day, 10) || 0)), type: TYPE_L[p.type] ? p.type : "hot",
-      recipeId:String(p.recipeId), days: Math.max(1, parseInt(p.days, 10) || 1)
-    }));
-    if (Array.isArray(d.bought)) s.bought = d.bought.map(String);
-    if (Array.isArray(d.deleted)) s.deleted = d.deleted.filter(x => x && x.id).map(x => ({ id:String(x.id), at:Number(x.at) || 0 }));
-    s.updatedAt = Number(d.updatedAt) || 0;
+  if (!d || typeof d !== "object") return s;
+  const today = todayStr(), thisMonday = mondayOf(today);
+  if (Array.isArray(d.recipes)) s.recipes = d.recipes.filter(r => r && r.id && r.name).map(r => ({
+    id:String(r.id), name:String(r.name), type: TYPE_L[r.type] ? r.type : "hot",
+    servings: Math.max(1, parseInt(r.servings, 10) || 1),
+    ingredients: Array.isArray(r.ingredients) ? r.ingredients.filter(i => i && i.name).map(i => ({ name:String(i.name), qty:parseQty(i.qty), unit: UNITS.includes(i.unit) ? i.unit : "г" })) : [],
+    steps: typeof r.steps === "string" ? r.steps : "",
+    photo: typeof r.photo === "string" && r.photo.startsWith("data:image/") ? r.photo : null,
+    needsSide: !!r.needsSide,
+    updatedAt: Number(r.updatedAt) || 0
+  }));
+  if (Array.isArray(d.plan)) s.plan = d.plan.filter(p => p && p.recipeId != null).map(p => {
+    let date = typeof p.date === "string" && YMD.test(p.date) ? p.date : null;
+    if (!date) date = addDays(thisMonday, Math.min(6, Math.max(0, parseInt(p.day, 10) || 0))); // старый план без дат → текущая неделя
+    return {
+      id:String(p.id || uid()), date,
+      type: SLOTS.includes(p.type) ? p.type : "hot",
+      recipeId:String(p.recipeId),
+      days: Math.min(7, Math.max(1, parseInt(p.days, 10) || 1)),
+      sideId: p.sideId ? String(p.sideId) : null,
+      fromFridge: !!p.fromFridge
+    };
+  }).filter(p => diffDays(lastDate(p), today) <= 90); // старше трёх месяцев не храним
+  if (d.bought && typeof d.bought === "object" && !Array.isArray(d.bought)){
+    Object.keys(d.bought).forEach(k => { if (YMD.test(k) && Array.isArray(d.bought[k])) s.bought[k] = d.bought[k].map(String); });
   }
+  if (Array.isArray(d.deleted)) s.deleted = d.deleted.filter(x => x && x.id).map(x => ({ id:String(x.id), at:Number(x.at) || 0 }));
+  if (Array.isArray(d.fridge)) s.fridge = d.fridge.filter(f => f && f.name).map(f => {
+    const dish = f.kind === "dish";
+    return {
+      id:String(f.id || uid()), kind: dish ? "dish" : "ing", name:String(f.name),
+      qty: parseQty(f.qty), unit: dish ? "порц." : (FRIDGE_UNITS.includes(f.unit) ? f.unit : "г"),
+      recipeId: dish && f.recipeId ? String(f.recipeId) : null
+    };
+  });
+  if (d.settings && typeof d.settings === "object") s.settings.people = Math.min(20, Math.max(1, parseInt(d.settings.people, 10) || 1));
+  s.fridgeReviewedAt = Number(d.fridgeReviewedAt) || 0;
+  s.updatedAt = Number(d.updatedAt) || 0;
   return s;
 }
 
@@ -318,9 +433,7 @@ let S = emptyState();
 let useIDB = false;
 async function loadState(){
   try { await Store.open(); useIDB = true; } catch(e){ useIDB = false; }
-  if (useIDB){
-    try { const v = await Store.get("state"); if (v) return normalize(v); } catch(e){}
-  }
+  if (useIDB){ try { const v = await Store.get("state"); if (v) return normalize(v); } catch(e){} }
   try { const raw = localStorage.getItem(LS_KEY); if (raw) return normalize(JSON.parse(raw)); } catch(e){}
   return emptyState();
 }
@@ -334,23 +447,26 @@ async function saveNow(){
   if (useIDB){ try { await Store.put("state", data); ok = true; } catch(e){} }
   if (!ok){
     try { localStorage.setItem(LS_KEY, JSON.stringify(data)); ok = true; }
-    catch(e){ toast("Не хватает места для сохранения. Удалите часть фото или сделайте резервную копию."); }
+    catch(e){ toast("Не хватает места для сохранения. Удалите часть фото или сохраните файл через «Обмен»."); }
   }
   saving = false;
   if (saveAgain){ saveAgain = false; saveNow(); }
 }
 
-const UI = { view:"week", day:todayIdx, filter:"all", q:"", open:{} };
+const UI = { view:"week", weekStart: mondayOf(todayStr()), day: dayIdx(todayStr()), filter:"all", q:"", open:{} };
 function commit(){ S.updatedAt = Date.now(); scheduleSave(); render(); }
 
-/* ---------- photo: shrink before storing ---------- */
+function recipeById(id){ return id ? S.recipes.find(r => r.id === id) : null; }
+function fridgeDish(recipeId){ return S.fridge.find(f => f.kind === "dish" && f.recipeId === recipeId); }
+function dishName(f){ const r = recipeById(f.recipeId); return r ? r.name : f.name; }
+
+/* ---------- photo ---------- */
 function readPhoto(file){
   return new Promise((res, rej) => {
     const url = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
-      const max = 1200;
-      const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const k = Math.min(1, 1200 / Math.max(img.naturalWidth, img.naturalHeight));
       const w = Math.round(img.naturalWidth * k), h = Math.round(img.naturalHeight * k);
       const c = document.createElement("canvas"); c.width = w; c.height = h;
       c.getContext("2d").drawImage(img, 0, 0, w, h);
@@ -366,7 +482,7 @@ function readPhoto(file){
 let toastT;
 function toast(msg){
   const t = $("toast"); t.textContent = msg; t.classList.add("on");
-  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 2200);
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 2400);
 }
 function openSheet(title, body, foot, opts){
   opts = opts || {};
@@ -418,11 +534,33 @@ function render(){
   if (UI.view === "recipes") renderRecipes();
   if (UI.view === "week") renderWeek();
   if (UI.view === "shop") renderShop();
+  if (UI.view === "fridge") renderFridge();
 }
 function renderDatalist(){
   const names = new Map();
-  S.recipes.forEach(r => r.ingredients.forEach(i => { if (i.name && !names.has(norm(i.name))) names.set(norm(i.name), i.name.trim()); }));
+  const addName = n => { if (n && !names.has(norm(n))) names.set(norm(n), n.trim()); };
+  S.recipes.forEach(r => r.ingredients.forEach(i => addName(i.name)));
+  S.fridge.forEach(f => { if (f.kind === "ing") addName(f.name); });
   $("ing-names").innerHTML = [...names.values()].sort((a,b) => a.localeCompare(b, "ru")).map(n => '<option value="' + esc(n) + '">').join("");
+}
+
+/* ---------- week navigation (shared by «Неделя» and «Покупки») ---------- */
+function weekNavHtml(){
+  const cur = mondayOf(todayStr());
+  const k = Math.round(diffDays(cur, UI.weekStart) / 7);
+  const rel = k === 0 ? "эта неделя" : k === 1 ? "следующая неделя" : k === -1 ? "прошлая неделя" : "";
+  return '<div class="wnav">' +
+    '<button class="arrow" data-wk="-1" aria-label="Предыдущая неделя">‹</button>' +
+    '<div class="wlabel"><b>' + weekLabel(UI.weekStart) + '</b>' +
+      (k === 0 ? '<span>' + rel + '</span>' : '<span>' + (rel ? rel + ' · ' : '') + '<button class="link" data-wk="0">к текущей неделе</button></span>') +
+    '</div>' +
+    '<button class="arrow" data-wk="1" aria-label="Следующая неделя">›</button></div>';
+}
+function onWeekNav(btn){
+  const v = Number(btn.dataset.wk);
+  if (v === 0){ UI.weekStart = mondayOf(todayStr()); UI.day = dayIdx(todayStr()); }
+  else { UI.weekStart = addDays(UI.weekStart, 7 * v); UI.day = 0; }
+  render();
 }
 
 /* ---------- recipes ---------- */
@@ -444,11 +582,11 @@ function renderRecipes(){
   el.innerHTML = list.map(r => {
     const n = r.ingredients.length;
     const open = !!UI.open[r.id];
+    const meta = r.servings + ' ' + pl(r.servings,"порция","порции","порций") + ' · ' + n + ' ' + pl(n,"ингредиент","ингредиента","ингредиентов") + (r.type === "hot" && r.needsSide ? ' · с гарниром' : '');
     let html = '<article class="rcard" data-id="' + r.id + '">' +
       '<button class="rhead" data-act="toggle" aria-expanded="' + open + '">' +
         (r.photo ? '<img class="thumb" src="' + esc(r.photo) + '" alt="">' : '') +
-        '<span class="rtext"><span class="rname">' + esc(r.name) + '</span>' +
-        '<span class="rmeta">' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + ' · ' + n + ' ' + pl(n,"ингредиент","ингредиента","ингредиентов") + '</span></span>' +
+        '<span class="rtext"><span class="rname">' + esc(r.name) + '</span><span class="rmeta">' + meta + '</span></span>' +
         '<span class="tag t-' + r.type + '">' + TYPE_L[r.type] + '</span>' +
       '</button>';
     if (open){
@@ -473,22 +611,28 @@ $("recipe-list").addEventListener("click", e => {
   if (b.dataset.act === "edit") openRecipeEditor(id);
   if (b.dataset.act === "del") deleteRecipe(id);
 });
+function dropRecipeRefs(ids){
+  // план и холодильник не должны ссылаться на исчезнувшие рецепты
+  S.plan = S.plan.filter(p => !ids.has(p.recipeId));
+  S.plan.forEach(p => { if (p.sideId && ids.has(p.sideId)) p.sideId = null; });
+  S.fridge.forEach(f => { if (f.recipeId && ids.has(f.recipeId)) f.recipeId = null; });
+}
 function deleteRecipe(id){
-  const r = S.recipes.find(x => x.id === id); if (!r) return;
-  const uses = S.plan.filter(p => p.recipeId === id).length;
-  const text = "Удалить рецепт «" + r.name + "»?" + (uses ? " Он стоит в плане на неделю (" + uses + " " + pl(uses,"раз","раза","раз") + "), оттуда он тоже пропадёт." : "");
+  const r = recipeById(id); if (!r) return;
+  const uses = S.plan.filter(p => p.recipeId === id || p.sideId === id).length;
+  const text = "Удалить рецепт «" + r.name + "»?" + (uses ? " Он стоит в плане (" + uses + " " + pl(uses,"раз","раза","раз") + "), оттуда он тоже пропадёт." : "");
   askConfirm(text, "Удалить", () => {
     S.recipes = S.recipes.filter(x => x.id !== id);
     S.deleted = S.deleted.filter(x => x.id !== id).concat([{ id, at: Date.now() }]);
-    S.plan = S.plan.filter(p => p.recipeId !== id);
+    dropRecipeRefs(new Set([id]));
     delete UI.open[id];
     commit(); toast("Рецепт удалён");
   });
 }
 
 function openRecipeEditor(id, presetType, onSaved){
-  const src = id ? S.recipes.find(r => r.id === id) : null;
-  const r = src ? clone(src) : { id:null, name:"", type: presetType || (UI.filter !== "all" ? UI.filter : "hot"), servings:2, ingredients:[], steps:"", photo:null };
+  const src = recipeById(id);
+  const r = src ? clone(src) : { id:null, name:"", type: presetType || (UI.filter !== "all" ? UI.filter : "hot"), servings:2, ingredients:[], steps:"", photo:null, needsSide:false };
   if (!r.ingredients.length) r.ingredients.push({name:"", qty:null, unit:"г"});
 
   const body =
@@ -496,7 +640,9 @@ function openRecipeEditor(id, presetType, onSaved){
     '<label class="field"><span>Название</span><input class="inp" id="e-name" value="' + esc(r.name) + '" placeholder="Например, сырники" autocomplete="off"></label>' +
     '<div class="field"><span>Тип блюда</span><div class="seg" id="e-type">' +
       TYPES.map(t => '<button type="button" class="t-' + t.k + '" data-t="' + t.k + '" aria-pressed="' + (r.type === t.k) + '">' + t.l + '</button>').join("") +
-    '</div></div>' +
+    '</div>' +
+    '<label class="check" id="e-side-wrap"' + (r.type === "hot" ? '' : ' hidden') + '><input type="checkbox" id="e-side"' + (r.needsSide ? ' checked' : '') + '> Подаётся с гарниром</label>' +
+    '</div>' +
     '<div class="field"><span>Сколько порций получается</span><div class="num">' +
       '<button type="button" data-sv="-1" aria-label="Меньше">−</button><input id="e-serv" inputmode="numeric" value="' + r.servings + '" aria-label="Порций"><button type="button" data-sv="1" aria-label="Больше">+</button>' +
     '</div></div>' +
@@ -546,8 +692,7 @@ function openRecipeEditor(id, presetType, onSaved){
     const f = fileInp.files && fileInp.files[0]; fileInp.value = "";
     if (!f) return;
     photoBox.innerHTML = '<p class="muted" style="margin:0">Обрабатываю фото…</p>';
-    try { r.photo = await readPhoto(f); }
-    catch(e){ toast("Не получилось открыть этот файл как изображение"); }
+    try { r.photo = await readPhoto(f); } catch(e){ toast("Не получилось открыть этот файл как изображение"); }
     drawPhoto();
   });
 
@@ -555,6 +700,7 @@ function openRecipeEditor(id, presetType, onSaved){
     const b = e.target.closest("[data-t]"); if (!b) return;
     r.type = b.dataset.t;
     el.querySelectorAll("#e-type [data-t]").forEach(x => x.setAttribute("aria-pressed", x.dataset.t === r.type));
+    el.querySelector("#e-side-wrap").hidden = r.type !== "hot";
   });
   const serv = el.querySelector("#e-serv");
   el.querySelectorAll("[data-sv]").forEach(b => b.addEventListener("click", () => {
@@ -580,9 +726,20 @@ function openRecipeEditor(id, presetType, onSaved){
     const servings = Math.max(1, parseInt(serv.value, 10) || 1);
     if (!name){ err.textContent = "Укажите название блюда."; el.querySelector(".sheet-body").scrollTop = 0; return; }
     if (!ings.length){ err.textContent = "Добавьте хотя бы один ингредиент."; el.querySelector(".sheet-body").scrollTop = 0; return; }
-    const rec = { id: r.id || uid(), name, type: r.type, servings, ingredients: ings, steps: el.querySelector("#e-steps").value, photo: r.photo || null, updatedAt: Date.now() };
-    if (r.id) S.recipes = S.recipes.map(x => x.id === r.id ? rec : x);
-    else S.recipes.push(rec);
+    const rec = {
+      id: r.id || uid(), name, type: r.type, servings, ingredients: ings,
+      steps: el.querySelector("#e-steps").value, photo: r.photo || null,
+      needsSide: r.type === "hot" && el.querySelector("#e-side").checked,
+      updatedAt: Date.now()
+    };
+    if (r.id){
+      S.recipes = S.recipes.map(x => x.id === r.id ? rec : x);
+      // тип поменялся — убираем рецепт оттуда, где он больше не подходит
+      if (src.type !== rec.type){
+        if (src.type === "side") S.plan.forEach(p => { if (p.sideId === rec.id) p.sideId = null; });
+        else S.plan = S.plan.filter(p => p.recipeId !== rec.id || p.type === rec.type);
+      }
+    } else S.recipes.push(rec);
     s.close();
     if (onSaved) onSaved(rec);
     commit();
@@ -592,136 +749,495 @@ function openRecipeEditor(id, presetType, onSaved){
 }
 
 /* ---------- week ---------- */
-function coverage(e){ return [e.day, Math.min(6, e.day + Math.max(1, e.days) - 1)]; }
-function recipeById(id){ return S.recipes.find(r => r.id === id); }
+function validPlan(){ return S.plan.filter(p => recipeById(p.recipeId)); }
+function entryHtml(p){
+  const r = recipeById(p.recipeId);
+  const side = recipeById(p.sideId);
+  const days = Math.min(Math.max(1, p.days), 7);
+  let html = '<div class="entry" data-id="' + p.id + '">' +
+    '<span class="en">' + esc(r.name) + '</span>' +
+    '<button class="rm" data-act="rm" aria-label="Убрать из плана">×</button>' +
+    '<span class="es">Рецепт на ' + r.servings + ' ' + pl(r.servings,"порцию","порции","порций") + (fridgeDish(r.id) ? ' · <span class="badge">есть готовое</span>' : '') + '</span>';
+  if (p.type === "hot"){
+    if (side) html += '<div class="sideline"><span class="sl"><i>Гарнир:</i> ' + esc(side.name) + '</span><button class="mini" data-act="side">Изменить</button></div>';
+    else html += '<div class="sideline' + (r.needsSide ? ' need' : '') + '"><span class="sl"><i>' + (r.needsSide ? 'Нужен гарнир' : 'Без гарнира') + '</i></span><button class="mini" data-act="side">Выбрать гарнир</button></div>';
+  }
+  html += '<div class="stepper"><span class="lbl">Хватит на</span><span class="stp">' +
+      '<button data-act="dec" aria-label="Меньше дней"' + (days <= 1 ? " disabled" : "") + '>−</button>' +
+      '<output>' + days + ' ' + pl(days,"день","дня","дней") + '</output>' +
+      '<button data-act="inc" aria-label="Больше дней"' + (days >= 7 ? " disabled" : "") + '>+</button>' +
+    '</span></div>' +
+    '<label class="ready"><input type="checkbox" data-ready' + (p.fromFridge ? ' checked' : '') + '> Уже приготовлено, продукты не покупать</label>' +
+  '</div>';
+  return html;
+}
 function renderWeek(){
-  const valid = S.plan.filter(p => recipeById(p.recipeId));
+  const ws = UI.weekStart, today = todayStr();
+  const valid = validPlan();
+  $("week-nav").innerHTML = weekNavHtml();
   $("days").innerHTML = DAYS_SH.map((d, i) => {
-    const covered = new Set(valid.filter(p => { const [a,b] = coverage(p); return i >= a && i <= b; }).map(p => p.type));
-    return '<button class="day" data-d="' + i + '" aria-pressed="' + (UI.day === i) + '" aria-label="' + DAYS[i] + '">' +
-      '<span class="dn">' + d + '</span><span class="bars" aria-hidden="true">' +
-      TYPES.map(t => '<i class="t-' + t.k + (covered.has(t.k) ? " on" : "") + '"></i>').join("") + '</span></button>';
+    const date = addDays(ws, i);
+    const covered = new Set(valid.filter(p => covers(p, date)).map(p => p.type));
+    const cls = "day" + (date === today ? " is-today" : "") + (date < today ? " is-past" : "");
+    return '<button class="' + cls + '" data-d="' + i + '" aria-pressed="' + (UI.day === i) + '" aria-label="' + DAYS[i] + ', ' + fmtDate(date) + '">' +
+      '<span class="dn">' + d + '</span><span class="dd">' + parseD(date).getDate() + '</span>' +
+      '<span class="bars" aria-hidden="true">' + SLOTS.map(t => '<i class="t-' + t + (covered.has(t) ? " on" : "") + '"></i>').join("") + '</span></button>';
   }).join("");
 
-  const d = UI.day;
-  let html = '<div class="dayhead"><h2>' + DAYS[d] + '</h2>' + (d === todayIdx ? '<span class="muted" style="font-size:.85rem">сегодня</span>' : '') + '</div>';
-  TYPES.forEach(t => {
-    const starts = valid.filter(p => p.day === d && p.type === t.k);
-    const conts = valid.filter(p => p.type === t.k && p.day < d && coverage(p)[1] >= d);
-    html += '<section class="slot t-' + t.k + '"><h3>' + t.l + '</h3>';
-    starts.forEach(p => {
-      const r = recipeById(p.recipeId);
-      const max = 7 - p.day;
-      const days = Math.min(Math.max(1, p.days), max);
-      html += '<div class="entry" data-id="' + p.id + '">' +
-        '<span class="en">' + esc(r.name) + '</span>' +
-        '<button class="rm" data-act="rm" aria-label="Убрать из плана">×</button>' +
-        '<span class="es">Рецепт на ' + r.servings + ' ' + pl(r.servings,"порцию","порции","порций") + '</span>' +
-        '<div class="stepper"><span class="lbl">Хватит на</span><span class="stp">' +
-          '<button data-act="dec" aria-label="Меньше дней"' + (days <= 1 ? " disabled" : "") + '>−</button>' +
-          '<output>' + days + ' ' + pl(days,"день","дня","дней") + '</output>' +
-          '<button data-act="inc" aria-label="Больше дней"' + (days >= max ? " disabled" : "") + '>+</button>' +
-        '</span></div></div>';
-    });
+  const date = addDays(ws, UI.day);
+  let html = '<button class="btn wide auto" data-act="auto">Подобрать меню на неделю</button>' +
+    '<div class="dayhead"><h2>' + DAYS[UI.day] + ', ' + fmtDate(date) + '</h2>' + (date === today ? '<span class="muted" style="font-size:.85rem">сегодня</span>' : '') + '</div>';
+  SLOTS.forEach(t => {
+    const starts = valid.filter(p => p.date === date && p.type === t);
+    const conts = valid.filter(p => p.type === t && p.date < date && covers(p, date));
+    html += '<section class="slot t-' + t + '"><h3>' + TYPE_L[t] + '</h3>';
+    starts.forEach(p => { html += entryHtml(p); });
     conts.forEach(p => {
-      const r = recipeById(p.recipeId); const [a,b] = coverage(p);
-      html += '<div class="cont"><b>' + esc(r.name) + '</b><span>Приготовлено в ' + DAYS_ACC[a] + ' · день ' + (d - a + 1) + ' из ' + (b - a + 1) + '</span></div>';
+      const r = recipeById(p.recipeId), side = recipeById(p.sideId);
+      const n = diffDays(p.date, date) + 1;
+      html += '<div class="cont"><b>' + esc(r.name) + (side ? ' + ' + esc(side.name) : '') + '</b><span>Приготовлено ' + DAYS_IN[dayIdx(p.date)] + ', ' + fmtDate(p.date) + ' · день ' + n + ' из ' + p.days + '</span></div>';
     });
-    html += '<button class="add" data-act="add" data-type="' + t.k + '">Выбрать блюдо</button></section>';
+    html += '<button class="add" data-act="add" data-type="' + t + '">Выбрать блюдо</button></section>';
   });
-  const total = valid.length;
-  html += '<div class="weekfoot"><span class="muted">' + (total ? "На неделе " + total + " " + pl(total,"блюдо","блюда","блюд") : "План на неделю пуст") + '</span>' +
-    (total ? '<button class="link" data-act="clear">Очистить неделю</button>' : '') + '</div>';
+  const inW = valid.filter(p => inWeek(p.date, ws));
+  html += '<div class="weekfoot"><span class="muted">' + (inW.length ? "На неделе " + inW.length + " " + pl(inW.length,"блюдо","блюда","блюд") : "План на эту неделю пуст") + '</span>' +
+    (inW.length ? '<button class="link" data-act="clear">Очистить неделю</button>' : '') + '</div>';
   $("day-body").innerHTML = html;
 }
+$("week-nav").addEventListener("click", e => { const b = e.target.closest("[data-wk]"); if (b) onWeekNav(b); });
 $("days").addEventListener("click", e => { const b = e.target.closest("[data-d]"); if (!b) return; UI.day = Number(b.dataset.d); renderWeek(); });
 $("day-body").addEventListener("click", e => {
   const b = e.target.closest("[data-act]"); if (!b) return;
   const act = b.dataset.act;
-  if (act === "add") return openPicker(UI.day, b.dataset.type);
-  if (act === "clear") return askConfirm("Убрать все блюда из плана на неделю? Рецепты в справочнике останутся.", "Очистить", () => { S.plan = []; S.bought = []; commit(); toast("Неделя очищена"); });
+  const date = addDays(UI.weekStart, UI.day);
+  if (act === "add") return openPicker(date, b.dataset.type);
+  if (act === "auto") return openAutoPlan();
+  if (act === "clear") return askConfirm("Убрать все блюда, которые готовятся на неделе " + weekLabel(UI.weekStart) + "? Рецепты в справочнике останутся.", "Очистить", () => {
+    S.plan = S.plan.filter(p => !inWeek(p.date, UI.weekStart));
+    delete S.bought[UI.weekStart];
+    commit(); toast("Неделя очищена");
+  });
   const row = b.closest("[data-id]"); if (!row) return;
   const p = S.plan.find(x => x.id === row.dataset.id); if (!p) return;
   if (act === "rm"){ S.plan = S.plan.filter(x => x.id !== p.id); commit(); return; }
-  const max = 7 - p.day;
-  if (act === "inc") p.days = Math.min(max, (p.days || 1) + 1);
+  if (act === "side") return openSidePicker(p.id);
+  if (act === "inc") p.days = Math.min(7, (p.days || 1) + 1);
   if (act === "dec") p.days = Math.max(1, (p.days || 1) - 1);
   commit();
 });
-function addToPlan(day, type, recipeId){ S.plan.push({ id: uid(), day, type, recipeId, days: 1 }); }
-function openPicker(day, type){
-  const list = S.recipes.filter(r => r.type === type).sort((a,b) => a.name.localeCompare(b.name, "ru"));
+$("day-body").addEventListener("change", e => {
+  const c = e.target.closest("[data-ready]"); if (!c) return;
+  const p = S.plan.find(x => x.id === c.closest("[data-id]").dataset.id); if (!p) return;
+  p.fromFridge = c.checked; commit();
+});
+function addToPlan(date, type, recipeId, fromFridge){
+  const p = { id: uid(), date, type, recipeId, days: 1, sideId: null, fromFridge: !!fromFridge };
+  S.plan.push(p);
+  return p;
+}
+function pickRow(r, extra){
+  return '<button data-r="' + r.id + '">' + (r.photo ? '<img class="thumb" src="' + esc(r.photo) + '" alt="">' : '') +
+    '<span class="pn">' + esc(r.name) + (extra || '') + '</span><span class="ps">' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + '</span></button>';
+}
+function openPicker(date, type){
+  const list = S.recipes.filter(r => r.type === type).sort((a,b) => (!!fridgeDish(b.id) - !!fridgeDish(a.id)) || a.name.localeCompare(b.name, "ru"));
   const body = list.length
-    ? '<div class="pick">' + list.map(r => '<button data-r="' + r.id + '">' + (r.photo ? '<img class="thumb" src="' + esc(r.photo) + '" alt="">' : '') + '<span class="pn">' + esc(r.name) + '</span><span class="ps">' + r.servings + ' ' + pl(r.servings,"порция","порции","порций") + '</span></button>').join("") + '</div>'
+    ? '<div class="pick">' + list.map(r => pickRow(r, fridgeDish(r.id) ? '<br><span class="badge">есть готовое в холодильнике</span>' : '')).join("") + '</div>'
     : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет блюд типа «' + TYPE_L[type] + '». Добавьте рецепт, и он сразу встанет в план.</p>';
-  const s = openSheet(TYPE_L[type] + " на " + DAYS_ACC[day], body, '<button class="btn wide" data-new>Новый рецепт</button>');
+  const s = openSheet(TYPE_L[type] + " на " + DAYS_ACC[dayIdx(date)] + ", " + fmtDate(date), body, '<button class="btn wide" data-new>Новый рецепт</button>');
+  const after = p => {
+    const r = recipeById(p.recipeId);
+    if (type === "hot" && r && r.needsSide && S.recipes.some(x => x.type === "side")) setTimeout(() => openSidePicker(p.id), 60);
+  };
   s.el.addEventListener("click", e => {
     const b = e.target.closest("[data-r]");
-    if (b){ addToPlan(day, type, b.dataset.r); s.close(); commit(); toast("Добавлено в план"); return; }
-    if (e.target.closest("[data-new]")){ s.close(); openRecipeEditor(null, type, rec => addToPlan(day, rec.type, rec.id)); }
+    if (b){
+      const p = addToPlan(date, type, b.dataset.r, !!fridgeDish(b.dataset.r));
+      s.close(); commit(); toast("Добавлено в план"); after(p); return;
+    }
+    if (e.target.closest("[data-new]")){
+      s.close();
+      openRecipeEditor(null, type, rec => { if (SLOTS.includes(rec.type)){ const p = addToPlan(date, rec.type, rec.id, false); after(p); } });
+    }
+  });
+}
+function openSidePicker(entryId){
+  const p = S.plan.find(x => x.id === entryId); if (!p) return;
+  const main = recipeById(p.recipeId);
+  const list = S.recipes.filter(r => r.type === "side").sort((a,b) => a.name.localeCompare(b.name, "ru"));
+  const body = (list.length
+    ? '<div class="pick">' + list.map(r => pickRow(r, (p.sideId === r.id ? ' · выбран' : '') + (fridgeDish(r.id) ? '<br><span class="badge">есть готовый в холодильнике</span>' : ''))).join("") + '</div>'
+    : '<p class="muted" style="margin:4px 0 8px">В справочнике пока нет гарниров. Добавьте рецепт с типом «Гарнир».</p>') +
+    (p.sideId ? '<button class="btn wide" data-noside style="margin-top:10px">Без гарнира</button>' : '');
+  const s = openSheet("Гарнир к блюду «" + (main ? main.name : "") + "»", body, '<button class="btn wide" data-new>Новый гарнир</button>');
+  s.el.addEventListener("click", e => {
+    const b = e.target.closest("[data-r]");
+    if (b){ p.sideId = b.dataset.r; s.close(); commit(); return; }
+    if (e.target.closest("[data-noside]")){ p.sideId = null; s.close(); commit(); return; }
+    if (e.target.closest("[data-new]")){ s.close(); openRecipeEditor(null, "side", rec => { if (rec.type === "side") p.sideId = rec.id; }); }
+  });
+}
+
+/* ---------- automatic menu ---------- */
+function fridgeIngNames(){ return new Set(S.fridge.filter(f => f.kind === "ing").map(f => norm(f.name))); }
+function autoPlan(types, mode, people){
+  const ws = UI.weekStart, today = todayStr();
+  const start = inWeek(today, ws) ? diffDays(ws, today) : 0; // в текущей неделе прошедшие дни не трогаем
+  const firstDate = addDays(ws, start), lastDay = addDays(ws, 6);
+  if (mode === "all"){
+    S.plan = S.plan.filter(p => !(types.includes(p.type) && p.date >= firstDate && p.date <= lastDay));
+  }
+  const have = fridgeIngNames();
+  const score = r => r.ingredients.filter(i => have.has(norm(i.name))).length;
+  const usage = new Map();
+  S.plan.filter(p => inWeek(p.date, ws)).forEach(p => {
+    usage.set(p.recipeId, (usage.get(p.recipeId) || 0) + 1);
+    if (p.sideId) usage.set(p.sideId, (usage.get(p.sideId) || 0) + 1);
+  });
+  const sides = S.recipes.filter(r => r.type === "side");
+  const pickSide = () => {
+    if (!sides.length) return null;
+    const c = shuffle(sides.slice()).sort((a,b) => (usage.get(a.id) || 0) - (usage.get(b.id) || 0) || score(b) - score(a))[0];
+    usage.set(c.id, (usage.get(c.id) || 0) + 1);
+    return c.id;
+  };
+  let added = 0;
+  const skipped = [];
+  types.forEach(type => {
+    const pool = S.recipes.filter(r => r.type === type);
+    if (!pool.length){ skipped.push(TYPE_L[type]); return; }
+    // готовое из холодильника, которое ещё не стоит в плане
+    const ready = S.fridge.filter(f => f.kind === "dish" && f.recipeId && pool.some(r => r.id === f.recipeId) &&
+      !S.plan.some(p => p.recipeId === f.recipeId && p.fromFridge && lastDate(p) >= today));
+    let prevId = null;
+    for (let d = start; d <= 6; d++){
+      const date = addDays(ws, d);
+      const covering = S.plan.find(p => p.type === type && covers(p, date) && recipeById(p.recipeId));
+      if (covering){ prevId = covering.recipeId; continue; }
+      let run = 0;
+      while (d + run <= 6 && !S.plan.some(p => p.type === type && covers(p, addDays(ws, d + run)) && recipeById(p.recipeId))) run++;
+      let recipe, fromFridge = false, portions;
+      if (ready.length){
+        const f = ready.shift();
+        recipe = recipeById(f.recipeId); fromFridge = true;
+        portions = f.qty || recipe.servings;
+      } else {
+        const cands = shuffle(pool.slice()).sort((a,b) => (usage.get(a.id) || 0) - (usage.get(b.id) || 0) || score(b) - score(a));
+        recipe = (pool.length > 1 && cands[0].id === prevId) ? cands[1] : cands[0];
+        portions = recipe.servings;
+      }
+      const days = Math.max(1, Math.min(MAX_AUTO_DAYS, run, Math.floor(portions / people) || 1));
+      const p = addToPlan(date, type, recipe.id, fromFridge);
+      p.days = days;
+      if (type === "hot" && recipe.needsSide) p.sideId = pickSide();
+      usage.set(recipe.id, (usage.get(recipe.id) || 0) + 1);
+      prevId = recipe.id;
+      added++;
+      d += days - 1;
+    }
+  });
+  return { added, skipped };
+}
+function openAutoPlan(){
+  const ws = UI.weekStart, today = todayStr();
+  const fromToday = inWeek(today, ws) && today !== ws;
+  const body =
+    '<p style="margin:2px 0 12px">Неделя ' + weekLabel(ws) + (fromToday ? ', начиная с сегодняшнего дня' : '') + '. После подбора любое блюдо можно поменять, удалить или добавить вручную.</p>' +
+    '<div class="field"><span>Что подобрать</span><div class="box">' +
+      SLOTS.map(t => {
+        const n = S.recipes.filter(r => r.type === t).length;
+        return '<label class="chkline"><input type="checkbox" data-t="' + t + '"' + (n ? ' checked' : ' disabled') + '> ' + TYPE_L[t] +
+          (t === "hot" ? ' с гарнирами' : '') + '<span class="muted">' + (n ? n + ' ' + pl(n,"рецепт","рецепта","рецептов") : 'нет рецептов') + '</span></label>';
+      }).join("") +
+    '</div></div>' +
+    '<div class="field"><span>Сколько человек едят</span><div class="num">' +
+      '<button type="button" data-pp="-1" aria-label="Меньше">−</button><input id="a-people" inputmode="numeric" value="' + S.settings.people + '" aria-label="Человек"><button type="button" data-pp="1" aria-label="Больше">+</button>' +
+    '</div></div>' +
+    '<div class="field"><span>Если в плане уже есть блюда</span>' +
+      '<label class="radio"><input type="radio" name="a-mode" value="empty" checked> Заполнить только пустые места</label>' +
+      '<label class="radio"><input type="radio" name="a-mode" value="all"> Подобрать заново: выбранные приёмы пищи на неделе будут заменены</label>' +
+    '</div>' +
+    '<p class="muted" style="margin:0;font-size:.86rem">Сначала в план идут готовые блюда из холодильника, затем рецепты, для которых дома уже есть продукты. Блюдо ставится на столько дней, на сколько хватает порций, но не больше ' + MAX_AUTO_DAYS + ' дней подряд. Повторы на неделе сводятся к минимуму.</p>';
+  const s = openSheet("Подобрать меню", body, '<button class="btn" data-close>Отмена</button><button class="btn primary" data-go>Подобрать</button>', {sticky:true});
+  const ppl = s.el.querySelector("#a-people");
+  s.el.querySelectorAll("[data-pp]").forEach(b => b.addEventListener("click", () => {
+    ppl.value = Math.min(20, Math.max(1, (parseInt(ppl.value, 10) || 1) + Number(b.dataset.pp)));
+  }));
+  s.el.querySelector("[data-go]").addEventListener("click", () => {
+    const types = [...s.el.querySelectorAll("[data-t]:checked")].map(x => x.dataset.t);
+    if (!types.length){ toast("Отметьте хотя бы один приём пищи"); return; }
+    const people = Math.min(20, Math.max(1, parseInt(ppl.value, 10) || 1));
+    const mode = s.el.querySelector('input[name="a-mode"]:checked').value;
+    S.settings.people = people;
+    const res = autoPlan(types, mode, people);
+    s.close();
+    commit();
+    toast(res.added ? "Подобрано " + res.added + " " + pl(res.added,"блюдо","блюда","блюд") + ". Проверьте и поправьте план" : "Свободных мест в плане нет");
   });
 }
 
 /* ---------- shopping ---------- */
-function aggregate(){
-  const map = new Map();
-  S.plan.forEach(p => {
-    const r = recipeById(p.recipeId); if (!r) return;
-    r.ingredients.forEach(i => {
-      if (!i.name) return;
-      const [bu, k] = baseUnit(i.unit);
-      const key = norm(i.name) + "|" + bu;
-      let it = map.get(key);
-      if (!it){ it = { key, name: i.name.trim(), unit: bu, qty: null, from: [] }; map.set(key, it); }
-      if (i.qty != null && bu !== "по вкусу") it.qty = (it.qty || 0) + i.qty * k;
-      if (!it.from.includes(r.name)) it.from.push(r.name);
-    });
+function aggregate(ws){
+  const need = new Map();
+  const addRecipe = r => r.ingredients.forEach(i => {
+    if (!i.name) return;
+    const [bu, k] = baseUnit(i.unit);
+    const key = norm(i.name) + "|" + bu;
+    let it = need.get(key);
+    if (!it){ it = { key, nkey: norm(i.name), name: i.name.trim(), unit: bu, qty: null, from: [] }; need.set(key, it); }
+    if (i.qty != null && bu !== "по вкусу") it.qty = (it.qty || 0) + i.qty * k;
+    if (!it.from.includes(r.name)) it.from.push(r.name);
   });
-  return [...map.values()];
+  validPlan().filter(p => inWeek(p.date, ws)).forEach(p => {
+    if (!p.fromFridge) addRecipe(recipeById(p.recipeId));
+    const side = recipeById(p.sideId);
+    if (side && !fridgeDish(side.id)) addRecipe(side);
+  });
+  // что уже есть в холодильнике
+  const have = new Map(), haveByName = new Map();
+  S.fridge.filter(f => f.kind === "ing").forEach(f => {
+    const [bu, k] = baseUnit(f.unit);
+    const key = norm(f.name) + "|" + bu;
+    const h = have.get(key) || { qty:0, unknown:false };
+    if (f.qty == null) h.unknown = true; else h.qty += f.qty * k;
+    have.set(key, h);
+    const list = haveByName.get(norm(f.name)) || [];
+    list.push(f.qty == null ? "есть" : showQty(f.qty * k, bu));
+    haveByName.set(norm(f.name), list);
+  });
+  const toBuy = [], covered = [];
+  need.forEach(it => {
+    const h = have.get(it.key);
+    const needStr = showQty(it.qty, it.unit);
+    if (h){
+      if (h.unknown || it.qty == null){ covered.push({ ...it, needStr, haveStr: h.unknown ? "есть" : showQty(h.qty, it.unit) }); return; }
+      const rest = it.qty - h.qty;
+      if (rest <= 0.0001){ covered.push({ ...it, needStr, haveStr: showQty(h.qty, it.unit) }); return; }
+      toBuy.push({ ...it, qty: rest, note: "нужно " + needStr + ", дома " + showQty(h.qty, it.unit) });
+      return;
+    }
+    if (it.qty == null && haveByName.has(it.nkey)){ covered.push({ ...it, needStr, haveStr: haveByName.get(it.nkey).join(", ") }); return; }
+    toBuy.push({ ...it, note: haveByName.has(it.nkey) ? "дома есть " + haveByName.get(it.nkey).join(", ") : "" });
+  });
+  return { toBuy, covered };
 }
 function renderShop(){
   const el = $("shop");
-  const items = aggregate();
-  if (!items.length){
-    el.innerHTML = '<div class="empty"><p>Список покупок соберётся сам, как только вы запланируете блюда на неделю.</p><button class="btn primary" data-go="week">Перейти к плану</button></div>';
+  const ws = UI.weekStart;
+  const { toBuy, covered } = aggregate(ws);
+  let html = weekNavHtml();
+  if (!toBuy.length && !covered.length){
+    el.innerHTML = html + '<div class="empty"><p>На эту неделю ничего не запланировано. Список покупок соберётся сам, как только в плане появятся блюда.</p><button class="btn primary" data-go="week">Перейти к плану</button></div>';
     return;
   }
-  const bought = new Set(S.bought);
-  items.sort((a,b) => (bought.has(a.key) - bought.has(b.key)) || a.name.localeCompare(b.name, "ru"));
-  const done = items.filter(i => bought.has(i.key)).length;
-  el.innerHTML =
-    '<div class="shophead"><p><b>' + items.length + ' ' + pl(items.length,"позиция","позиции","позиций") + '</b>' + (done ? '<span class="muted">, куплено ' + done + '</span>' : '') + '</p></div>' +
-    '<div class="slist">' + items.map(i =>
-      '<label class="item' + (bought.has(i.key) ? " done" : "") + '">' +
-        '<input type="checkbox" data-key="' + esc(i.key) + '"' + (bought.has(i.key) ? " checked" : "") + '>' +
-        '<span class="iname">' + esc(i.name) + '</span><span class="iqty">' + esc(showQty(i.qty, i.unit)) + '</span>' +
-        '<small>' + esc(i.from.join(", ")) + '</small></label>').join("") + '</div>' +
-    '<div class="shopactions"><button class="btn primary" data-act="copy">Скопировать список</button>' +
-      (done ? '<button class="btn" data-act="reset">Снять отметки</button>' : '') + '</div>' +
-    '<p class="note">Каждое блюдо в плане считается как один раз приготовленный рецепт, даже если его хватает на несколько дней. Килограммы и граммы, литры и миллилитры складываются вместе.</p>';
+  const bought = new Set(S.bought[ws] || []);
+  toBuy.sort((a,b) => (bought.has(a.key) - bought.has(b.key)) || a.name.localeCompare(b.name, "ru"));
+  const done = toBuy.filter(i => bought.has(i.key)).length;
+  if (toBuy.length){
+    html += '<div class="shophead"><p><b>Купить: ' + toBuy.length + ' ' + pl(toBuy.length,"позиция","позиции","позиций") + '</b>' + (done ? '<span class="muted">, куплено ' + done + '</span>' : '') + '</p></div>' +
+      '<div class="slist">' + toBuy.map(i =>
+        '<label class="item' + (bought.has(i.key) ? " done" : "") + '">' +
+          '<input type="checkbox" data-key="' + esc(i.key) + '"' + (bought.has(i.key) ? " checked" : "") + '>' +
+          '<span class="iname">' + esc(i.name) + '</span><span class="iqty">' + esc(showQty(i.qty, i.unit)) + '</span>' +
+          (i.note ? '<span class="inote">' + esc(i.note) + '</span>' : '') +
+          '<small>' + esc(i.from.join(", ")) + '</small></label>').join("") + '</div>' +
+      '<div class="shopactions"><button class="btn primary" data-act="copy">Скопировать список</button>' +
+        (done ? '<button class="btn" data-act="reset">Снять отметки</button>' : '') + '</div>' +
+      (done ? '<button class="btn wide" data-act="tofridge" style="margin-top:8px">Переложить купленное в холодильник</button>' : '');
+  } else {
+    html += '<div class="empty" style="padding:24px 16px"><p>Всё нужное на эту неделю уже есть дома.</p></div>';
+  }
+  if (covered.length){
+    covered.sort((a,b) => a.name.localeCompare(b.name, "ru"));
+    html += '<h3 class="sh2">Уже есть дома</h3><div class="slist">' + covered.map(i =>
+      '<div class="haverow"><span>' + esc(i.name) + '</span><span>' + (i.needStr ? 'нужно ' + esc(i.needStr) + ', ' : '') + 'дома ' + esc(i.haveStr) + '</span></div>').join("") + '</div>';
+  }
+  html += '<p class="note">Каждое блюдо считается как один раз приготовленный рецепт, даже если его хватает на несколько дней. Блюда с отметкой «Уже приготовлено» и готовые гарниры из холодильника в список не попадают. Продукты из холодильника вычитаются из нужного количества.</p>';
+  el.innerHTML = html;
 }
 $("shop").addEventListener("change", e => {
   const c = e.target.closest("[data-key]"); if (!c) return;
-  S.bought = S.bought.filter(x => x !== c.dataset.key);
-  if (c.checked) S.bought.push(c.dataset.key);
+  const ws = UI.weekStart;
+  const list = (S.bought[ws] || []).filter(x => x !== c.dataset.key);
+  if (c.checked) list.push(c.dataset.key);
+  S.bought[ws] = list;
   commit();
 });
 $("shop").addEventListener("click", e => {
+  const w = e.target.closest("[data-wk]"); if (w) return onWeekNav(w);
   const go = e.target.closest("[data-go]"); if (go) return setView(go.dataset.go, true);
   const b = e.target.closest("[data-act]"); if (!b) return;
-  if (b.dataset.act === "reset"){ S.bought = []; commit(); }
+  if (b.dataset.act === "reset"){ delete S.bought[UI.weekStart]; commit(); }
   if (b.dataset.act === "copy") copyList();
+  if (b.dataset.act === "tofridge") moveBoughtToFridge();
 });
+function addIngToFridge(name, qty, unit){
+  const [bu, k] = baseUnit(unit);
+  const ex = S.fridge.find(f => f.kind === "ing" && norm(f.name) === norm(name) && baseUnit(f.unit)[0] === bu);
+  if (ex){
+    if (ex.qty == null) return true;            // количество не отслеживается — просто «есть»
+    if (qty == null){ ex.qty = null; return true; }
+    const [ebu, ek] = baseUnit(ex.unit);
+    if (ek !== 1 || k !== 1){ ex.qty = ex.qty * ek + qty * k; ex.unit = ebu; } else ex.qty += qty;
+    return true;
+  }
+  S.fridge.push({ id: uid(), kind:"ing", name: name.trim(), qty, unit: FRIDGE_UNITS.includes(unit) ? unit : "шт", recipeId:null });
+  return false;
+}
+function moveBoughtToFridge(){
+  const ws = UI.weekStart;
+  const bought = new Set(S.bought[ws] || []);
+  const items = aggregate(ws).toBuy.filter(i => bought.has(i.key));
+  if (!items.length) return;
+  items.forEach(i => addIngToFridge(i.name, i.unit === "по вкусу" ? null : i.qty, i.unit === "по вкусу" ? "шт" : i.unit));
+  S.bought[ws] = [...bought].filter(k => !items.some(i => i.key === k));
+  commit();
+  toast(items.length + " " + pl(items.length,"продукт","продукта","продуктов") + " в холодильнике");
+}
 async function copyList(){
-  const bought = new Set(S.bought);
-  const items = aggregate().filter(i => !bought.has(i.key)).sort((a,b) => a.name.localeCompare(b.name, "ru"));
+  const ws = UI.weekStart;
+  const bought = new Set(S.bought[ws] || []);
+  const items = aggregate(ws).toBuy.filter(i => !bought.has(i.key)).sort((a,b) => a.name.localeCompare(b.name, "ru"));
   if (!items.length){ toast("Всё уже куплено"); return; }
-  const text = "Покупки на неделю\n" + items.map(i => "— " + i.name + (showQty(i.qty, i.unit) ? ": " + showQty(i.qty, i.unit) : "")).join("\n");
+  const text = "Покупки на " + weekLabel(ws) + "\n" + items.map(i => "— " + i.name + (showQty(i.qty, i.unit) ? ": " + showQty(i.qty, i.unit) : "")).join("\n");
   try { await navigator.clipboard.writeText(text); toast("Список скопирован"); }
   catch(e){
     const s = openSheet("Список покупок", '<p class="muted" style="margin:0 0 8px">Выделите текст и скопируйте его.</p><textarea class="copybox" readonly>' + esc(text) + '</textarea>', "");
     const ta = s.el.querySelector("textarea"); ta.focus(); ta.select();
   }
+}
+
+/* ---------- fridge ---------- */
+function renderFridge(){
+  const el = $("fridge");
+  const dishes = S.fridge.filter(f => f.kind === "dish").sort((a,b) => dishName(a).localeCompare(dishName(b), "ru"));
+  const ings = S.fridge.filter(f => f.kind === "ing").sort((a,b) => a.name.localeCompare(b.name, "ru"));
+  let html = '';
+  if (S.fridge.length){
+    const daysSince = S.fridgeReviewedAt ? Math.floor((Date.now() - S.fridgeReviewedAt) / 86400000) : null;
+    if (daysSince == null || daysSince >= REVIEW_EVERY_DAYS){
+      html += '<div class="banner"><p><b>Пора проверить холодильник.</b> ' +
+        (daysSince == null ? 'Проверка ещё не проводилась.' : 'Последняя проверка была ' + daysSince + ' ' + pl(daysSince,"день","дня","дней") + ' назад.') +
+        ' Отметьте, что закончилось, и поправьте остатки, тогда список покупок будет точным.</p>' +
+        '<button class="btn primary" data-act="review">Проверить сейчас</button></div>';
+    }
+  }
+  html += '<div class="frow-actions"><button class="btn primary" data-act="add-ing">Добавить продукт</button><button class="btn" data-act="add-dish">Добавить заготовку</button></div>';
+  if (!S.fridge.length){
+    el.innerHTML = html + '<div class="empty"><p>Здесь хранится то, что уже есть дома: продукты и готовые блюда или заготовки. Продукты вычитаются из списка покупок, а заготовки сначала идут в автоподбор меню.</p><p>Купленное можно переложить сюда одной кнопкой из раздела «Покупки».</p></div>';
+    return;
+  }
+  if (S.fridgeReviewedAt){
+    const d = new Date(S.fridgeReviewedAt);
+    html += '<p class="muted" style="font-size:.84rem;margin:4px 2px 0">Последняя проверка: ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + '. <button class="link" data-act="review" style="padding:0">Проверить</button></p>';
+  }
+  if (dishes.length){
+    html += '<section class="fsec"><h3>Готовые блюда и заготовки</h3><div class="flist">' + dishes.map(f =>
+      '<button class="frow" data-fid="' + f.id + '"><span>' + esc(dishName(f)) + '</span><span class="q">' + (f.qty ? fmt(f.qty) + ' ' + pl(Math.round(f.qty),"порция","порции","порций") : 'есть') + '</span></button>').join("") + '</div></section>';
+  }
+  if (ings.length){
+    html += '<section class="fsec"><h3>Продукты</h3><div class="flist">' + ings.map(f =>
+      '<button class="frow" data-fid="' + f.id + '"><span>' + esc(f.name) + '</span><span class="q">' + (f.qty == null ? 'есть' : esc(showQty(f.qty, f.unit))) + '</span></button>').join("") + '</div></section>';
+  }
+  el.innerHTML = html;
+}
+$("fridge").addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (b){
+    if (b.dataset.act === "add-ing") openFridgeItem(null, "ing");
+    if (b.dataset.act === "add-dish") openFridgeItem(null, "dish");
+    if (b.dataset.act === "review") openReview();
+    return;
+  }
+  const row = e.target.closest("[data-fid]");
+  if (row){ const f = S.fridge.find(x => x.id === row.dataset.fid); if (f) openFridgeItem(f.id, f.kind); }
+});
+function openFridgeItem(id, kind){
+  const src = S.fridge.find(f => f.id === id);
+  const it = src ? clone(src) : { id:null, kind, name:"", qty:null, unit: kind === "dish" ? "порц." : "г", recipeId:null };
+  let body = '<p class="err" id="f-err"></p>';
+  if (kind === "ing"){
+    body +=
+      '<label class="field"><span>Продукт</span><input class="inp" id="f-name" list="ing-names" value="' + esc(it.name) + '" placeholder="Например, молоко" autocomplete="off"></label>' +
+      '<div class="field"><span>Сколько есть</span><div class="irow" style="grid-template-columns:1fr 110px">' +
+        '<input class="inp" id="f-qty" inputmode="decimal" value="' + (it.qty == null ? "" : esc(fmt(it.qty))) + '" placeholder="не важно">' +
+        '<select class="inp" id="f-unit">' + FRIDGE_UNITS.map(u => '<option' + (u === it.unit ? " selected" : "") + '>' + u + '</option>').join("") + '</select>' +
+      '</div><p class="muted" style="font-size:.84rem;margin:6px 0 0">Оставьте количество пустым, если важно только, что продукт есть. Тогда он не попадёт в список покупок.</p></div>';
+  } else {
+    const recs = S.recipes.slice().sort((a,b) => a.name.localeCompare(b.name, "ru"));
+    body +=
+      '<label class="field"><span>Блюдо из справочника</span><select class="inp" id="f-rec"><option value="">Другое, не из справочника</option>' +
+        recs.map(r => '<option value="' + r.id + '"' + (r.id === it.recipeId ? ' selected' : '') + '>' + esc(r.name) + ' (' + TYPE_L[r.type].toLowerCase() + ')</option>').join("") +
+      '</select></label>' +
+      '<label class="field" id="f-name-wrap"' + (it.recipeId ? ' hidden' : '') + '><span>Название</span><input class="inp" id="f-name" value="' + esc(it.recipeId ? "" : it.name) + '" placeholder="Например, бульон" autocomplete="off"></label>' +
+      '<div class="field"><span>Сколько порций</span><div class="num">' +
+        '<button type="button" data-fp="-1" aria-label="Меньше">−</button><input id="f-qty" inputmode="numeric" value="' + (it.qty || 2) + '" aria-label="Порций"><button type="button" data-fp="1" aria-label="Больше">+</button>' +
+      '</div></div>' +
+      '<p class="muted" style="font-size:.84rem;margin:0">Блюда из справочника автоподбор ставит в меню в первую очередь, а их продукты не попадают в список покупок.</p>';
+  }
+  const foot = (src ? '<button class="btn danger" data-del>Убрать</button>' : '<button class="btn" data-close>Отмена</button>') + '<button class="btn primary" data-save>Сохранить</button>';
+  const s = openSheet(src ? (kind === "dish" ? "Заготовка" : "Продукт") : (kind === "dish" ? "Новая заготовка" : "Новый продукт"), body, foot, {sticky:true});
+  const el = s.el;
+  if (kind === "dish"){
+    const sel = el.querySelector("#f-rec");
+    sel.addEventListener("change", () => { el.querySelector("#f-name-wrap").hidden = !!sel.value; });
+    const q = el.querySelector("#f-qty");
+    el.querySelectorAll("[data-fp]").forEach(b => b.addEventListener("click", () => {
+      q.value = Math.max(1, (parseInt(q.value, 10) || 1) + Number(b.dataset.fp));
+    }));
+  }
+  const del = el.querySelector("[data-del]");
+  if (del) del.addEventListener("click", () => { S.fridge = S.fridge.filter(f => f.id !== it.id); s.close(); commit(); toast("Убрано из холодильника"); });
+  el.querySelector("[data-save]").addEventListener("click", () => {
+    const err = el.querySelector("#f-err");
+    if (kind === "ing"){
+      const name = el.querySelector("#f-name").value.trim();
+      if (!name){ err.textContent = "Укажите продукт."; return; }
+      const qty = parseQty(el.querySelector("#f-qty").value), unit = el.querySelector("#f-unit").value;
+      if (src){ Object.assign(src, { name, qty, unit }); s.close(); commit(); return; }
+      const merged = addIngToFridge(name, qty, unit);
+      s.close(); commit(); toast(merged ? "Добавлено к тому, что уже есть" : "Продукт добавлен");
+    } else {
+      const rid = el.querySelector("#f-rec").value || null;
+      const r = recipeById(rid);
+      const name = r ? r.name : el.querySelector("#f-name").value.trim();
+      if (!name){ err.textContent = "Выберите блюдо или напишите название."; return; }
+      const qty = Math.max(1, parseInt(el.querySelector("#f-qty").value, 10) || 1);
+      if (src) Object.assign(src, { name, qty, recipeId: rid });
+      else S.fridge.push({ id: uid(), kind:"dish", name, qty, unit:"порц.", recipeId: rid });
+      s.close(); commit(); toast(src ? "Сохранено" : "Заготовка добавлена");
+    }
+  });
+}
+function openReview(){
+  const items = S.fridge.slice().sort((a,b) => (a.kind === b.kind ? 0 : a.kind === "dish" ? -1 : 1) || (a.kind === "dish" ? dishName(a) : a.name).localeCompare(b.kind === "dish" ? dishName(b) : b.name, "ru"));
+  const body = '<p style="margin:2px 0 10px">Отметьте, что закончилось, и поправьте остатки. Пустое поле количества означает «есть, но сколько — не важно».</p>' +
+    items.map(f => '<div class="rv" data-fid="' + f.id + '">' +
+      '<span class="nm">' + esc(f.kind === "dish" ? dishName(f) : f.name) + '<small>' + (f.kind === "dish" ? "порций" : esc(f.unit)) + '</small></span>' +
+      '<input class="inp" inputmode="decimal" value="' + (f.qty == null ? "" : esc(fmt(f.qty))) + '" aria-label="Количество">' +
+      '<button type="button" class="gone" aria-pressed="false">Закончилось</button></div>').join("");
+  const s = openSheet("Проверка холодильника", body, '<button class="btn" data-close>Отмена</button><button class="btn primary" data-save>Сохранить</button>', {sticky:true});
+  s.el.querySelector(".sheet-body").addEventListener("click", e => {
+    const b = e.target.closest(".gone"); if (!b) return;
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", on);
+    b.closest(".rv").classList.toggle("is-gone", on);
+  });
+  s.el.querySelector("[data-save]").addEventListener("click", () => {
+    const keep = [];
+    s.el.querySelectorAll(".rv").forEach(row => {
+      const f = S.fridge.find(x => x.id === row.dataset.fid); if (!f) return;
+      if (row.querySelector(".gone").getAttribute("aria-pressed") === "true") return;
+      const q = parseQty(row.querySelector("input").value);
+      f.qty = f.kind === "dish" ? (q ? Math.max(1, Math.round(q)) : null) : q;
+      keep.push(f);
+    });
+    const removed = S.fridge.length - keep.length;
+    S.fridge = keep;
+    S.fridgeReviewedAt = Date.now();
+    s.close(); commit();
+    toast("Холодильник проверен" + (removed ? ", убрано " + removed : ""));
+  });
 }
 
 /* ---------- exchange: file with recipes, merge on import ---------- */
@@ -733,13 +1249,12 @@ function parsePayload(text){
   } catch(e){ return null; }
 }
 function extractFromHtml(html){
-  // файлы офлайн-версии планера хранят данные внутри себя
   const m = html.match(/<script type="application\/json" id="embedded">([\s\S]*?)<\/script>/);
   return m ? parsePayload(m[1]) : null;
 }
-function exportName(){ return "recepty-" + new Date().toISOString().slice(0,10) + ".json"; }
+function exportName(){ return "recepty-" + todayStr() + ".json"; }
 function exportBlob(){
-  return new Blob([JSON.stringify({ app:"menu-planner", version:4, savedAt:new Date().toISOString(), data:S })], { type:"application/json" });
+  return new Blob([JSON.stringify({ app:"menu-planner", version:5, savedAt:new Date().toISOString(), data:S })], { type:"application/json" });
 }
 function downloadExport(){
   try {
@@ -757,8 +1272,7 @@ function canShareFiles(){
 }
 async function shareExport(){
   try {
-    const file = new File([exportBlob()], exportName(), { type:"application/json" });
-    await navigator.share({ files:[file], title:"Рецепты" });
+    await navigator.share({ files:[ new File([exportBlob()], exportName(), { type:"application/json" }) ], title:"Рецепты" });
   } catch(e){
     if (e && e.name === "AbortError") return;
     downloadExport();
@@ -783,12 +1297,17 @@ function computeMerge(inc){
   return { added, updated, removed, recipes:[...byId.values()], deleted:[...tomb].map(([id, at]) => ({ id, at })) };
 }
 function applyMerge(m){
+  const before = new Set(S.recipes.map(r => r.id));
   S.recipes = m.recipes;
   S.deleted = m.deleted;
-  const ids = new Set(S.recipes.map(r => r.id));
-  S.plan = S.plan.filter(p => ids.has(p.recipeId));
+  const now = new Set(S.recipes.map(r => r.id));
+  dropRecipeRefs(new Set([...before].filter(id => !now.has(id))));
   UI.open = {};
   commit();
+}
+function dateLabel(iso){
+  try { return new Date(iso).toLocaleString("ru-RU", { day:"numeric", month:"long", hour:"2-digit", minute:"2-digit" }); }
+  catch(e){ return ""; }
 }
 function offerImport(got){
   const m = computeMerge(got.data);
@@ -801,31 +1320,26 @@ function offerImport(got){
   const summary = parts.length ? "При объединении будет " + parts.join(", ") + "." : "Все рецепты из файла у вас уже есть, объединять нечего.";
   const s = openSheet("Рецепты из файла",
     '<p style="margin:4px 0 10px">В файле ' + n + ' ' + pl(n,"рецепт","рецепта","рецептов") + '.' + esc(when) + '</p>' +
-    '<p style="margin:0 0 10px"><b>' + esc(summary) + '</b> Ваши рецепты и план на неделю останутся.</p>' +
-    '<p class="muted" style="margin:0 0 12px">Если это ваша собственная резервная копия, можно заменить всё содержимое планера, включая план на неделю и отметки в списке покупок.</p>' +
+    '<p style="margin:0 0 10px"><b>' + esc(summary) + '</b> Ваши рецепты, план и холодильник останутся.</p>' +
+    '<p class="muted" style="margin:0 0 12px">Если это ваша собственная резервная копия, можно заменить всё содержимое планера, включая план, холодильник и отметки в списках покупок.</p>' +
     '<button class="btn wide danger" data-replace style="margin-bottom:4px">Заменить всё содержимым файла</button>',
     '<button class="btn" data-close>Отмена</button>' + (parts.length ? '<button class="btn primary" data-merge>Объединить</button>' : ''), { sticky:true });
   const mb = s.el.querySelector("[data-merge]");
   if (mb) mb.addEventListener("click", () => { s.close(); applyMerge(m); toast("Рецепты объединены"); });
   s.el.querySelector("[data-replace]").addEventListener("click", () => {
     s.close();
-    askConfirm("Заменить всё содержимое планера данными из файла? Текущие рецепты и план будут удалены.", "Заменить", () => {
+    askConfirm("Заменить всё содержимое планера данными из файла? Текущие рецепты, план и холодильник будут удалены.", "Заменить", () => {
       S = got.data; UI.open = {}; commit(); toast("Данные заменены");
     });
   });
 }
-function dateLabel(iso){
-  try { return new Date(iso).toLocaleString("ru-RU", { day:"numeric", month:"long", hour:"2-digit", minute:"2-digit" }); }
-  catch(e){ return ""; }
-}
-
 $("exchange").addEventListener("click", () => {
   const photos = S.recipes.filter(r => r.photo).length;
   const size = JSON.stringify(S).length;
   const share = canShareFiles();
   const body = '<div class="bk">' +
     '<p>Отправьте файл с рецептами другому человеку, например в Telegram. Он загрузит его в свой планер, и рецепты объединятся с его собственными. Фото передаются вместе с рецептами.</p>' +
-    '<p>Этот же файл служит резервной копией: время от времени отправляйте его себе, например в «Избранное» Telegram.</p>' +
+    '<p>Этот же файл служит резервной копией всего планера, включая план и холодильник: время от времени отправляйте его себе, например в «Избранное» Telegram.</p>' +
     '<p class="cur">Сейчас: ' + S.recipes.length + ' ' + pl(S.recipes.length,"рецепт","рецепта","рецептов") + ', ' + photos + ' фото, файл примерно ' + sizeLabel(size) + '.</p>' +
     (share ? '<button class="btn primary wide" data-x="share">Отправить файл с рецептами</button><button class="btn wide" data-x="save">Сохранить файл на телефон</button>'
            : '<button class="btn primary wide" data-x="save">Сохранить файл с рецептами</button>') +
@@ -856,6 +1370,16 @@ $("exchange").addEventListener("click", () => {
 });
 
 /* ---------- start ---------- */
+let lastToday = todayStr();
+document.addEventListener("visibilitychange", () => {
+  // приложение могло провисеть открытым до следующего дня — обновляем «сегодня»
+  if (document.visibilityState !== "visible") return;
+  const t = todayStr();
+  if (t !== lastToday){
+    if (UI.weekStart === mondayOf(lastToday)){ UI.weekStart = mondayOf(t); UI.day = dayIdx(t); }
+    lastToday = t; render();
+  }
+});
 (async function start(){
   S = await loadState();
   const startView = location.hash.slice(1);
